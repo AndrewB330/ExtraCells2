@@ -6,6 +6,7 @@ import appeng.api.implementations.guiobjects.INetworkTool;
 import appeng.api.util.DimensionalCoord;
 import extracells.container.slot.SlotNetworkTool;
 import extracells.container.slot.SlotRespective;
+import extracells.container.slot.SlotUpgrades;
 import extracells.gui.GuiFluidPlaneFormation;
 import extracells.part.PartFluidPlaneFormation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ public class ContainerPlaneFormation extends Container {
 
 	public ContainerPlaneFormation(PartFluidPlaneFormation part,
 			EntityPlayer player) {
-		addSlotToContainer(new SlotRespective(part.getUpgradeInventory(), 0,
+		addSlotToContainer(new SlotUpgrades(part.getUpgradeInventory(), 0,
 				187, 8));
 		bindPlayerInventory(player.inventory);
 

@@ -21,6 +21,7 @@ import extracells.inventory.HandlerItemStorageFluid;
 import extracells.network.packet.part.PacketFluidStorage;
 import extracells.util.FluidUtil;
 import extracells.util.GasUtil;
+import extracells.util.inventory.ECGasInventory;
 import extracells.util.inventory.ECPrivateInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import mekanism.api.gas.GasStack;
@@ -49,14 +50,7 @@ public class ContainerGasStorage extends Container implements
 	private IWirelessGasTermHandler handler = null;
 	private IPortableGasStorageCell storageCell = null;
 	public boolean hasWirelessTermHandler = false;
-	private ECPrivateInventory inventory = new ECPrivateInventory(
-			"extracells.item.fluid.storage", 2, 64, this) {
-
-		@Override
-		public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-			return GasUtil.isGasContainer(itemStack);
-		}
-	};
+	private ECPrivateInventory inventory = new ECGasInventory("extracells.item.fluid.storage", 2, 64, this);
 
 	private boolean doNextFill = false;
 

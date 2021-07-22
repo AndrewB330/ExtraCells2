@@ -3,7 +3,8 @@ package extracells.util;
 import net.minecraft.item.ItemStack;
 
 public class ItemUtils {
-	
+
+	// todo: rename areStacksMergable
 	public static boolean areItemEqualsIgnoreStackSize(ItemStack stack1, ItemStack stack2){
 		if(stack1 == null && stack2 == null)
 			return true;
@@ -14,6 +15,12 @@ public class ItemUtils {
 		s1.stackSize = 1;
 		s2.stackSize = 1;
 		return ItemStack.areItemStacksEqual(s1, s2);
+	}
+
+	public static ItemStack copyAmount(ItemStack stack, int amount) {
+		ItemStack copy = stack.copy();
+		copy.stackSize = amount;
+		return copy;
 	}
 
 }

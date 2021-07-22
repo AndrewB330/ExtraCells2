@@ -6,6 +6,7 @@ import appeng.api.implementations.guiobjects.INetworkTool;
 import appeng.api.util.DimensionalCoord;
 import extracells.container.slot.SlotNetworkTool;
 import extracells.container.slot.SlotRespective;
+import extracells.container.slot.SlotUpgrades;
 import extracells.gui.GuiBusFluidStorage;
 import extracells.part.PartFluidStorage;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +23,7 @@ public class ContainerBusFluidStorage extends Container {
 
 	public ContainerBusFluidStorage(PartFluidStorage part, EntityPlayer player) {
 
-		addSlotToContainer(new SlotRespective(part.getUpgradeInventory(), 0, 187, 8));
+		addSlotToContainer(new SlotUpgrades(part.getUpgradeInventory(), 0, 187, 8));
 		this.part = part;
 		bindPlayerInventory(player.inventory);
 

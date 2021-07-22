@@ -28,15 +28,20 @@ public class GuiBusFluidIO extends ECGuiContainer implements
 		WidgetFluidSlot.IConfigurable, IFluidSlotGui {
 
 	private static final ResourceLocation guiTexture = new ResourceLocation("extracells", "textures/gui/busiofluid.png");
-	private PartFluidIO part;
-	private EntityPlayer player;
+
+	private final PartFluidIO part;
+	private final EntityPlayer player;
+	private final boolean hasNetworkTool;
+
 	private byte filterSize;
 	private boolean redstoneControlled;
-	private boolean hasNetworkTool;
 
 	public GuiBusFluidIO(PartFluidIO _terminal, EntityPlayer _player) {
 		super(new ContainerBusFluidIO(_terminal, _player));
-		((ContainerBusFluidIO) this.inventorySlots).setGui(this);
+
+		((ContainerBusFluidIO)inventorySlots)
+				.setTransferItemInSlotCallback((ItemStack stack) -> this.shiftClick(stack));
+
 		this.part = _terminal;
 		this.player = _player;
 
