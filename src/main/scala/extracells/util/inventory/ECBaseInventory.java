@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ECPrivateInventory implements IInventory {
+public class ECBaseInventory implements IInventory {
 
     public final ItemStack[] slots; // todo: rename to stacks
     private final int stackLimit;
@@ -19,11 +19,11 @@ public class ECPrivateInventory implements IInventory {
     private final String customName;
     private final IInventoryUpdateReceiver receiver;
 
-    public ECPrivateInventory(String _customName, int _size, int _stackLimit) {
+    public ECBaseInventory(String _customName, int _size, int _stackLimit) {
         this(_customName, _size, _stackLimit, null);
     }
 
-    public ECPrivateInventory(String _customName, int _size, int _stackLimit, IInventoryUpdateReceiver _receiver) {
+    public ECBaseInventory(String _customName, int _size, int _stackLimit, IInventoryUpdateReceiver _receiver) {
         this.slots = new ItemStack[_size];
         this.customName = _customName;
         this.stackLimit = _stackLimit;

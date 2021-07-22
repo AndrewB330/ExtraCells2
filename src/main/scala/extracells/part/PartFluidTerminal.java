@@ -20,7 +20,7 @@ import extracells.network.packet.part.PacketFluidTerminal;
 import extracells.render.TextureManager;
 import extracells.util.FluidUtil;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -43,7 +43,7 @@ public class PartFluidTerminal extends PartECBase implements IGridTickable,
 
 	protected Fluid currentFluid;
 	private List<Object> containers = new ArrayList<Object>();
-	protected ECPrivateInventory inventory = new ECPrivateInventory(
+	protected ECBaseInventory inventory = new ECBaseInventory(
 			"extracells.part.fluid.terminal", 2, 64, this) {
 
 		@Override

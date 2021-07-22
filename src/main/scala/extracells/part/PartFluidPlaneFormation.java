@@ -28,7 +28,7 @@ import extracells.render.TextureManager;
 import extracells.util.ColorUtil;
 import extracells.util.FluidUtil;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -53,7 +53,7 @@ public class PartFluidPlaneFormation extends PartECBase implements
 	private Fluid fluid;
 	// TODO redstone control
 	private RedstoneMode redstoneMode;
-	private ECPrivateInventory upgradeInventory = new ECPrivateInventory("", 1,
+	private ECBaseInventory upgradeInventory = new ECBaseInventory("", 1,
 			1) {
 
 		@Override
@@ -139,7 +139,7 @@ public class PartFluidPlaneFormation extends PartECBase implements
 		return new TickingRequest(1, 20, false, false);
 	}
 
-	public ECPrivateInventory getUpgradeInventory() {
+	public ECBaseInventory getUpgradeInventory() {
 		return this.upgradeInventory;
 	}
 

@@ -9,7 +9,7 @@ import extracells.api.IFluidStorageCell;
 import extracells.api.IHandlerFluidStorage;
 import extracells.registries.ItemEnum;
 import extracells.util.inventory.ECFluidFilterInventory;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -136,7 +136,7 @@ public class ItemStorageFluid extends ItemECBase implements IFluidStorageCell {
 
 	@Override
 	public IInventory getUpgradesInventory(ItemStack is) {
-		return new ECPrivateInventory("configInventory", 0, 64);
+		return new ECBaseInventory("configInventory", 0, 64);
 	}
 
 	@Override

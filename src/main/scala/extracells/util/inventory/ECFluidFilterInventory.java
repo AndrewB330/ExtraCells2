@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-public class ECFluidFilterInventory extends ECPrivateInventory {
+public class ECFluidFilterInventory extends ECBaseInventory {
 
 	private final ItemStack cellItem;
 

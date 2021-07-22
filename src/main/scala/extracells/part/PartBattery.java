@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import extracells.network.AbstractPacket;
 import extracells.render.TextureManager;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -33,7 +33,7 @@ public class PartBattery extends PartECBase implements IAEPowerStorage,
 	private IIcon batteryIcon = TextureManager.BATTERY_FRONT.getTexture();
 	private ItemStack battery;
 	IAEItemPowerStorage handler;
-	private ECPrivateInventory inventory = new ECPrivateInventory(
+	private ECBaseInventory inventory = new ECBaseInventory(
 			"extracells.part.battery", 1, 1) {
 
 		@Override

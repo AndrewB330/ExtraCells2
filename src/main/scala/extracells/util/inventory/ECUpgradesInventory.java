@@ -3,7 +3,7 @@ package extracells.util.inventory;
 import appeng.api.AEApi;
 import net.minecraft.item.ItemStack;
 
-public class ECUpgradesInventory extends ECPrivateInventory {
+public class ECUpgradesInventory extends ECBaseInventory {
 
     public ECUpgradesInventory( int _size, IInventoryUpdateReceiver _receiver) {
         super("upgrades", _size, 1, _receiver);

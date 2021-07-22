@@ -19,7 +19,7 @@ import extracells.container.ContainerDrive;
 import extracells.gui.GuiDrive;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -44,7 +44,7 @@ public class PartDrive extends PartECBase implements ICellContainer,
 	private byte[] cellStatuses = new byte[6];
 	List<IMEInventoryHandler> fluidHandlers = new ArrayList<IMEInventoryHandler>();
 	List<IMEInventoryHandler> itemHandlers = new ArrayList<IMEInventoryHandler>();
-	private ECPrivateInventory inventory = new ECPrivateInventory(
+	private ECBaseInventory inventory = new ECBaseInventory(
 			"extracells.part.drive", 6, 1, this) {
 
 		ICellRegistry cellRegistry = AEApi.instance().registries().cell();
@@ -114,7 +114,7 @@ public class PartDrive extends PartECBase implements ICellContainer,
 			}
 	}
 
-	public ECPrivateInventory getInventory() {
+	public ECBaseInventory getInventory() {
 		return this.inventory;
 	}
 

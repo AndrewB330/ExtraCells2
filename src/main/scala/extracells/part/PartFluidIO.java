@@ -17,7 +17,7 @@ import extracells.gui.GuiBusFluidIO;
 import extracells.network.packet.other.IFluidSlotPartOrBlock;
 import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.PacketBusFluidIO;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import extracells.util.inventory.ECUpgradesInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import io.netty.buffer.ByteBuf;
@@ -43,7 +43,7 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
     protected byte filterSize;
     protected byte speedState;
     protected boolean redstoneControlled;
-    private final ECPrivateInventory upgradeInventory = new ECUpgradesInventory(4, this);
+    private final ECBaseInventory upgradeInventory = new ECUpgradesInventory(4, this);
 
     @Override
     public void getDrops(List<ItemStack> drops, boolean wrenched) {
@@ -118,7 +118,7 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
         return new TickingRequest(1, 20, false, false);
     }
 
-    public ECPrivateInventory getUpgradeInventory() {
+    public ECBaseInventory getUpgradeInventory() {
         return this.upgradeInventory;
     }
 

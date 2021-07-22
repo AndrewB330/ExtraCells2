@@ -26,7 +26,7 @@ import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.PacketBusFluidStorage;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -52,7 +52,7 @@ public class PartFluidStorage extends PartECBase implements ICellContainer, IInv
 	protected HandlerPartStorageFluid handler = new HandlerPartStorageFluid(this);
 	private Fluid[] filterFluids = new Fluid[54];
 	private AccessRestriction access = AccessRestriction.READ_WRITE;
-	private ECPrivateInventory upgradeInventory = new ECPrivateInventory("", 1, 1, this) {
+	private ECBaseInventory upgradeInventory = new ECBaseInventory("", 1, 1, this) {
 
 		@Override
 		public boolean isItemValidForSlot(int i, ItemStack itemStack) {
@@ -127,7 +127,7 @@ public class PartFluidStorage extends PartECBase implements ICellContainer, IInv
 		return new ContainerBusFluidStorage(this, player);
 	}
 
-	public ECPrivateInventory getUpgradeInventory() {
+	public ECBaseInventory getUpgradeInventory() {
 		return this.upgradeInventory;
 	}
 

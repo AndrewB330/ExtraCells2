@@ -11,7 +11,7 @@ import appeng.api.util.AECableType;
 import appeng.api.util.DimensionalCoord;
 import extracells.api.IECTileEntity;
 import extracells.gridblock.ECGridBlockHardMEDrive;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -32,7 +32,7 @@ public class TileEntityHardMeDrive extends TileBase implements IActionHost, IECT
     List<IMEInventoryHandler> itemHandlers = new ArrayList<IMEInventoryHandler>();
     private final ECGridBlockHardMEDrive gridBlock = new ECGridBlockHardMEDrive(this);
 
-    private ECPrivateInventory inventory = new ECPrivateInventory(
+    private ECBaseInventory inventory = new ECBaseInventory(
             "extracells.part.drive", 3, 1, this) {
 
         ICellRegistry cellRegistry = AEApi.instance().registries().cell();

@@ -8,7 +8,7 @@ import appeng.api.storage.data.IAEFluidStack
 import appeng.api.storage.{IMEInventoryHandler, StorageChannel}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import extracells.api.{ECApi, IHandlerFluidStorage, IPortableFluidStorageCell}
-import extracells.util.inventory.{ECFluidFilterInventory, ECPrivateInventory}
+import extracells.util.inventory.{ECFluidFilterInventory, ECBaseInventory}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
@@ -115,7 +115,7 @@ object ItemStoragePortableFluidCell extends ItemECBase with IPortableFluidStorag
   }
 
   def getUpgradesInventory(is: ItemStack): IInventory = {
-    return new ECPrivateInventory("configInventory", 0, 64)
+    return new ECBaseInventory("configInventory", 0, 64)
   }
 
   def hasPower(player: EntityPlayer, amount: Double, is: ItemStack): Boolean = {

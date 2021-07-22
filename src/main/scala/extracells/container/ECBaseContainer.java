@@ -1,7 +1,7 @@
 package extracells.container;
 
 import extracells.util.ItemUtils;
-import extracells.util.inventory.ECPrivateInventory;
+import extracells.util.inventory.ECBaseInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -13,9 +13,9 @@ public abstract class ECBaseContainer extends Container {
 
     private static final int SLOT_SIZE = 18;
 
-    protected ECPrivateInventory inventory;
+    protected ECBaseInventory inventory;
 
-    public ECBaseContainer(InventoryPlayer playerInventory, ECPrivateInventory inventory, int xOffset, int yOffset) {
+    public ECBaseContainer(InventoryPlayer playerInventory, ECBaseInventory inventory, int xOffset, int yOffset) {
         this.inventory = inventory;
         bindPlayerInventory(playerInventory, xOffset, yOffset);
         addSlots(playerInventory);
