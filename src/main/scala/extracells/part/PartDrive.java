@@ -20,6 +20,7 @@ import extracells.gui.GuiDrive;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
 import extracells.util.inventory.ECBaseInventory;
+import extracells.util.inventory.ECCellInventory;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -36,24 +37,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartDrive extends PartECBase implements ICellContainer,
-		IInventoryUpdateReceiver {
-
+public class PartDrive extends PartWithInventory implements ICellContainer {
 	private int priority = 0; // TODO
 	private short[] blinkTimers; // TODO
 	private byte[] cellStatuses = new byte[6];
 	List<IMEInventoryHandler> fluidHandlers = new ArrayList<IMEInventoryHandler>();
 	List<IMEInventoryHandler> itemHandlers = new ArrayList<IMEInventoryHandler>();
-	private ECBaseInventory inventory = new ECBaseInventory(
-			"extracells.part.drive", 6, 1, this) {
 
-		ICellRegistry cellRegistry = AEApi.instance().registries().cell();
-
-		@Override
-		public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-			return this.cellRegistry.isCellHandled(itemStack);
-		}
-	};
+	public PartDrive() {
+		super(new ECCellInventory("extracells.part.drive", 6, 1));
+	}
 
 	@Override
 	public void addToWorld() {
@@ -105,20 +98,6 @@ public class PartDrive extends PartECBase implements ICellContainer,
 	}
 
 	@Override
-	public void getDrops(List<ItemStack> drops, boolean wrenched) {
-		if (!wrenched)
-			for (int i = 0; i < this.inventory.getSizeInventory(); i++) {
-				ItemStack cell = this.inventory.getStackInSlot(i);
-				if (cell != null)
-					drops.add(cell);
-			}
-	}
-
-	public ECBaseInventory getInventory() {
-		return this.inventory;
-	}
-
-	@Override
 	public int getPriority() {
 		return this.priority;
 	}
@@ -142,7 +121,7 @@ public class PartDrive extends PartECBase implements ICellContainer,
 		this.itemHandlers = updateHandlers(StorageChannel.ITEMS);
 		this.fluidHandlers = updateHandlers(StorageChannel.FLUIDS);
 		for (int i = 0; i < this.cellStatuses.length; i++) {
-			ItemStack stackInSlot = this.inventory.getStackInSlot(i);
+			ItemStack stackInSlot = this.getInventory().getStackInSlot(i);
 			IMEInventoryHandler inventoryHandler = AEApi.instance()
 					.registries().cell()
 					.getCellInventory(stackInSlot, null, StorageChannel.ITEMS);
@@ -186,13 +165,6 @@ public class PartDrive extends PartECBase implements ICellContainer,
 			}
 		}
 		node.getGrid().postEvent(new MENetworkCellArrayUpdate());
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound data) {
-		super.readFromNBT(data);
-		this.inventory.readFromNBT(data.getTagList("inventory", 10));
-		onInventoryChanged();
 	}
 
 	@Override
@@ -293,8 +265,8 @@ public class PartDrive extends PartECBase implements ICellContainer,
 	private List<IMEInventoryHandler> updateHandlers(StorageChannel channel) {
 		ICellRegistry cellRegistry = AEApi.instance().registries().cell();
 		List<IMEInventoryHandler> handlers = new ArrayList<IMEInventoryHandler>();
-		for (int i = 0; i < this.inventory.getSizeInventory(); i++) {
-			ItemStack cell = this.inventory.getStackInSlot(i);
+		for (int i = 0; i < this.getInventory().getSizeInventory(); i++) {
+			ItemStack cell = this.getInventory().getStackInSlot(i);
 			if (cellRegistry.isCellHandled(cell)) {
 				IMEInventoryHandler cellInventory = cellRegistry
 						.getCellInventory(cell, null, channel);
@@ -303,12 +275,6 @@ public class PartDrive extends PartECBase implements ICellContainer,
 			}
 		}
 		return handlers;
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound data) {
-		super.writeToNBT(data);
-		data.setTag("inventory", this.inventory.writeToNBT());
 	}
 
 	@Override

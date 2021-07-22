@@ -21,8 +21,7 @@ public class ContainerPlaneFormation extends Container {
 
 	public ContainerPlaneFormation(PartFluidPlaneFormation part,
 			EntityPlayer player) {
-		addSlotToContainer(new SlotUpgrades(part.getUpgradeInventory(), 0,
-				187, 8));
+		addSlotToContainer(new SlotUpgrades(part.getInventory(), 0,187, 8));
 		bindPlayerInventory(player.inventory);
 
 		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {

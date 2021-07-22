@@ -8,7 +8,7 @@ import appeng.api.storage.data.IAEFluidStack
 import appeng.api.storage.{IMEInventoryHandler, StorageChannel}
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import extracells.api.{ECApi, IHandlerFluidStorage, IPortableFluidStorageCell}
-import extracells.util.inventory.{ECFluidFilterInventory, ECBaseInventory}
+import extracells.util.inventory.{ECConfigInventoryFluid, ECBaseInventory}
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.player.EntityPlayer
@@ -51,7 +51,7 @@ object ItemStoragePortableFluidCell extends ItemECBase with IPortableFluidStorag
   }
 
   def getConfigInventory(is: ItemStack): IInventory = {
-    return new ECFluidFilterInventory("configFluidCell", 63, is)
+    return new ECConfigInventoryFluid("configFluidCell", 63, is)
   }
 
   override def getDurabilityForDisplay(itemStack: ItemStack): Double = {
@@ -60,7 +60,7 @@ object ItemStoragePortableFluidCell extends ItemECBase with IPortableFluidStorag
 
 
   def getFilter(stack: ItemStack): util.ArrayList[Fluid] = {
-    val inventory: ECFluidFilterInventory = new ECFluidFilterInventory("", 63, stack)
+    val inventory: ECConfigInventoryFluid = new ECConfigInventoryFluid("", 63, stack)
     val stacks: Array[ItemStack] = inventory.slots
     val filter: util.ArrayList[Fluid] = new util.ArrayList[Fluid]
     if (stacks.length == 0) return null

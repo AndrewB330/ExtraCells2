@@ -35,25 +35,19 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class PartFluidIO extends PartECBase implements IGridTickable,
-        IInventoryUpdateReceiver, IFluidSlotPartOrBlock {
+public abstract class PartFluidIO extends PartWithInventory implements IGridTickable, IFluidSlotPartOrBlock {
 
     public Fluid[] filterFluids = new Fluid[9];
     private RedstoneMode redstoneMode = RedstoneMode.IGNORE;
     protected byte filterSize;
     protected byte speedState;
     protected boolean redstoneControlled;
-    private final ECBaseInventory upgradeInventory = new ECUpgradesInventory(4, this);
 
-    @Override
-    public void getDrops(List<ItemStack> drops, boolean wrenched) {
-		for (ItemStack stack : upgradeInventory.slots) {
-			if (stack == null)
-				continue;
-                drops.add(stack);
-            }
-        }
+    public PartFluidIO() {
+        super(new ECUpgradesInventory(4, ECUpgradesInventory.UPGRADES_IO), "upgradeInventory");
+    }
 
+    // TODO: check this
     @Override
     public ItemStack getItemStack(PartItemStack type) {
         ItemStack stack = super.getItemStack(type);
@@ -118,10 +112,6 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
         return new TickingRequest(1, 20, false, false);
     }
 
-    public ECBaseInventory getUpgradeInventory() {
-        return this.upgradeInventory;
-    }
-
     @Override
     public List<String> getWailaBodey(NBTTagCompound tag, List<String> oldList) {
         if (tag.hasKey("speed"))
@@ -158,8 +148,8 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
         this.filterSize = 0;
         this.redstoneControlled = false;
         this.speedState = 0;
-        for (int i = 0; i < this.upgradeInventory.getSizeInventory(); i++) {
-            ItemStack currentStack = this.upgradeInventory.getStackInSlot(i);
+        for (int i = 0; i < this.getInventory().getSizeInventory(); i++) {
+            ItemStack currentStack = this.getInventory().getStackInSlot(i);
             if (currentStack != null) {
                 if (AEApi.instance().definitions().materials().cardCapacity().isSameAs(currentStack))
                     this.filterSize++;
@@ -173,7 +163,8 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
         try {
             if (getHost().getLocation().getWorld().isRemote)
                 return;
-		} catch (Throwable ignored) {}
+        } catch (Throwable ignored) {
+        }
         new PacketBusFluidIO(this.filterSize).sendPacketToAllPlayers();
         new PacketBusFluidIO(this.redstoneControlled).sendPacketToAllPlayers();
         saveData();
@@ -188,8 +179,6 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
             this.filterFluids[i] = FluidRegistry.getFluid(data
                     .getString("FilterFluid#" + i));
         }
-        this.upgradeInventory.readFromNBT(data.getTagList("upgradeInventory",
-                10));
         onInventoryChanged();
     }
 
@@ -201,7 +190,8 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
     @SideOnly(Side.CLIENT)
     @Override
     public final void renderDynamic(double x, double y, double z,
-			IPartRenderHelper rh, RenderBlocks renderer) {}
+                                    IPartRenderHelper rh, RenderBlocks renderer) {
+    }
 
     @SideOnly(Side.CLIENT)
     @Override
@@ -210,12 +200,12 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
 
     @SideOnly(Side.CLIENT)
     @Override
-	public abstract void renderStatic(int x, int y, int z,
-			IPartRenderHelper rh, RenderBlocks renderer);
+    public abstract void renderStatic(int x, int y, int z,
+                                      IPartRenderHelper rh, RenderBlocks renderer);
 
     public void sendInformation(EntityPlayer player) {
-		new PacketFluidSlot(Arrays.asList(this.filterFluids))
-				.sendPacketToPlayer(player);
+        new PacketFluidSlot(Arrays.asList(this.filterFluids))
+                .sendPacketToPlayer(player);
         new PacketBusFluidIO(this.redstoneMode).sendPacketToPlayer(player);
         new PacketBusFluidIO(this.filterSize).sendPacketToPlayer(player);
     }
@@ -255,7 +245,6 @@ public abstract class PartFluidIO extends PartECBase implements IGridTickable,
             else
                 data.setString("FilterFluid#" + i, "");
         }
-        data.setTag("upgradeInventory", this.upgradeInventory.writeToNBT());
     }
 
     @Override

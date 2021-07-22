@@ -3,6 +3,7 @@ package extracells.util.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -14,28 +15,38 @@ import java.util.stream.Collectors;
 public class ECBaseInventory implements IInventory {
 
     public final ItemStack[] slots; // todo: rename to stacks
-    private final int stackLimit;
 
+    private final int stackLimit;
     private final String customName;
-    private final IInventoryUpdateReceiver receiver;
+
+    private IInventoryUpdateReceiver receiver;
 
     public ECBaseInventory(String _customName, int _size, int _stackLimit) {
-        this(_customName, _size, _stackLimit, null);
-    }
-
-    public ECBaseInventory(String _customName, int _size, int _stackLimit, IInventoryUpdateReceiver _receiver) {
         this.slots = new ItemStack[_size];
         this.customName = _customName;
         this.stackLimit = _stackLimit;
-        this.receiver = _receiver;
+    }
+
+    public void setReceiver(IInventoryUpdateReceiver receiver) {
+        this.receiver = receiver;
+    }
+
+    @Override
+    public void openInventory() {
     }
 
     @Override
     public void closeInventory() {
     }
 
+    /**
+     * @return lit of all non-null and non-empty stacks in inventory
+     */
     public List<ItemStack> getContent() {
-        return Arrays.stream(slots).filter(Objects::nonNull).collect(Collectors.toList());
+        return Arrays
+                .stream(slots)
+                .filter((ItemStack stack) -> stack != null && stack.stackSize > 0)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -119,48 +130,52 @@ public class ECBaseInventory implements IInventory {
     }
 
     @Override
-    public void openInventory() {
-		// NOBODY needs this!
-    }
-
-    public void readFromNBT(NBTTagList nbtList) {
-        if (nbtList == null) {
-            for (int i = 0; i < slots.length; i++) {
-                slots[i] = null;
-            }
-            return;
-        }
-        for (int i = 0; i < nbtList.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound = nbtList.getCompoundTagAt(i);
-            int j = nbttagcompound.getByte("Slot") & 255;
-
-            if (j >= 0 && j < this.slots.length) {
-                this.slots[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
-            }
-        }
-    }
-
-    @Override
     public void setInventorySlotContents(int slotId, ItemStack itemstack) {
-		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
-			itemstack.stackSize = getInventoryStackLimit();
-		}
+        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
+            itemstack.stackSize = getInventoryStackLimit();
+        }
         this.slots[slotId] = itemstack;
 
         markDirty();
     }
 
-    public NBTTagList writeToNBT() {
-        NBTTagList nbtList = new NBTTagList();
+    public void readFromNBT(NBTTagList target) {
+        if (target == null) {
+            Arrays.fill(slots, null);
+            return;
+        }
+        for (int i = 0; i < target.tagCount(); ++i) {
+            NBTTagCompound nbttagcompound = target.getCompoundTagAt(i);
+            int j = nbttagcompound.getByte("Slot") & 255;
 
+            if (j < this.slots.length) {
+                this.slots[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+            }
+        }
+    }
+
+    public void readFromNBTAs(final NBTTagCompound data, final String name) {
+        // TODO: check why 10(??)
+        final NBTTagList c = data.getTagList(name, 10);
+        if (c != null) {
+            this.readFromNBT(c);
+        }
+    }
+
+    public void writeToNBT(NBTTagList target) {
         for (int i = 0; i < this.slots.length; ++i) {
             if (this.slots[i] != null) {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte) i);
                 this.slots[i].writeToNBT(nbttagcompound);
-                nbtList.appendTag(nbttagcompound);
+                target.appendTag(nbttagcompound);
             }
         }
-        return nbtList;
+    }
+
+    public void writeToNBTAs(final NBTTagCompound data, final String name) {
+        final NBTTagList c = new NBTTagList();
+        this.writeToNBT(c);
+        data.setTag(name, c);
     }
 }

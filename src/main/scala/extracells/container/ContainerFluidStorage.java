@@ -32,8 +32,7 @@ import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 public class ContainerFluidStorage extends Container implements
-        IMEMonitorHandlerReceiver<IAEFluidStack>, IFluidSelectorContainer,
-        IInventoryUpdateReceiver, IStorageContainer {
+        IMEMonitorHandlerReceiver<IAEFluidStack>, IFluidSelectorContainer, IStorageContainer {
 
     private GuiFluidStorage guiFluidStorage;
     private IItemList<IAEFluidStack> fluidStackList;
@@ -45,7 +44,7 @@ public class ContainerFluidStorage extends Container implements
     private IWirelessFluidTermHandler handler = null;
     private IPortableFluidStorageCell storageCell = null;
     public boolean hasWirelessTermHandler = false;
-    private ECBaseInventory inventory = new ECFluidInventory("extracells.item.fluid.storage", 2, 64, this);
+    private ECBaseInventory inventory = new ECFluidInventory("extracells.item.fluid.storage", 2, 64);
 
     public ContainerFluidStorage(EntityPlayer _player) {
         this(null, _player);
@@ -304,11 +303,6 @@ public class ContainerFluidStorage extends Container implements
                 this.player.dropPlayerItemWithRandomChoice(
                         ((Slot) this.inventorySlots.get(i)).getStack(), false);
         }
-    }
-
-    @Override
-    public void onInventoryChanged() {
-
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ContainerBusFluidIO extends ECBaseContainer {
 	private Consumer<ItemStack> onTransferItemInSlot = null;
 
 	public ContainerBusFluidIO(PartFluidIO part, EntityPlayer player) {
-		super(player.inventory, part.getUpgradeInventory(), 8, 102);
+		super(player.inventory, part.getInventory(), 8, 102);
 		this.part = part;
 
 		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {

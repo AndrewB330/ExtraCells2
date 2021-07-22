@@ -23,7 +23,7 @@ public class ContainerBusFluidStorage extends Container {
 
 	public ContainerBusFluidStorage(PartFluidStorage part, EntityPlayer player) {
 
-		addSlotToContainer(new SlotUpgrades(part.getUpgradeInventory(), 0, 187, 8));
+		addSlotToContainer(new SlotUpgrades(part.getInventory(), 0, 187, 8));
 		this.part = part;
 		bindPlayerInventory(player.inventory);
 

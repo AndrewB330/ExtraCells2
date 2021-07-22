@@ -29,6 +29,7 @@ import extracells.util.ColorUtil;
 import extracells.util.FluidUtil;
 import extracells.util.PermissionUtil;
 import extracells.util.inventory.ECBaseInventory;
+import extracells.util.inventory.ECUpgradesInventory;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -47,28 +48,14 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 import java.util.List;
 
-public class PartFluidPlaneFormation extends PartECBase implements
-		IFluidSlotPartOrBlock, IGridTickable {
+public class PartFluidPlaneFormation extends PartWithInventory implements IFluidSlotPartOrBlock, IGridTickable {
 
 	private Fluid fluid;
 	// TODO redstone control
 	private RedstoneMode redstoneMode;
-	private ECBaseInventory upgradeInventory = new ECBaseInventory("", 1,
-			1) {
 
-		@Override
-		public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-			return AEApi.instance().definitions().materials().cardRedstone().isSameAs(itemStack);
-		}
-	};
-
-	@Override
-	public void getDrops( List<ItemStack> drops, boolean wrenched) {
-		for (ItemStack stack : upgradeInventory.slots) {
-			if (stack == null)
-				continue;
-			drops.add(stack);
-		}
+	public PartFluidPlaneFormation() {
+		super(new ECUpgradesInventory(1, ECUpgradesInventory.UPGRADE_REDSTONE), "upgradeInventory");
 	}
 
 	@Override
@@ -137,10 +124,6 @@ public class PartFluidPlaneFormation extends PartECBase implements
 	@Override
 	public TickingRequest getTickingRequest(IGridNode node) {
 		return new TickingRequest(1, 20, false, false);
-	}
-
-	public ECBaseInventory getUpgradeInventory() {
-		return this.upgradeInventory;
 	}
 
 	@Override
@@ -234,5 +217,10 @@ public class PartFluidPlaneFormation extends PartECBase implements
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setString("fluid", this.fluid == null ? "" : this.fluid.getName());
+	}
+
+	@Override
+	public void onInventoryChanged() {
+		// TODO: should we do something here?
 	}
 }

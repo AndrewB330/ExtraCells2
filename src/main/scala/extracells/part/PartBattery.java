@@ -132,7 +132,7 @@ public class PartBattery extends PartECBase implements IAEPowerStorage,
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
-		this.inventory.readFromNBT(data.getTagList("inventory", 10));
+		this.inventory.readFromNBTAs(data, "inventory");
 		onInventoryChanged();
 	}
 
@@ -180,7 +180,7 @@ public class PartBattery extends PartECBase implements IAEPowerStorage,
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
-		data.setTag("inventory", this.inventory.writeToNBT());
+		this.inventory.writeToNBTAs(data, "inventory");
 	}
 
 	@Override

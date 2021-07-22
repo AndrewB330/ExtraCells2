@@ -8,7 +8,7 @@ import appeng.api.storage.data.IAEFluidStack;
 import extracells.api.IFluidStorageCell;
 import extracells.api.IHandlerFluidStorage;
 import extracells.registries.ItemEnum;
-import extracells.util.inventory.ECFluidFilterInventory;
+import extracells.util.inventory.ECConfigInventoryFluid;
 import extracells.util.inventory.ECBaseInventory;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -67,12 +67,12 @@ public class ItemStorageFluid extends ItemECBase implements IFluidStorageCell {
 
 	@Override
 	public IInventory getConfigInventory(ItemStack is) {
-		return new ECFluidFilterInventory("configFluidCell", 63, is);
+		return new ECConfigInventoryFluid("configFluidCell", 63, is);
 	}
 
 	@Override
 	public ArrayList<Fluid> getFilter(ItemStack stack) {
-		ECFluidFilterInventory inventory = new ECFluidFilterInventory("", 63, stack);
+		ECConfigInventoryFluid inventory = new ECConfigInventoryFluid("", 63, stack);
 		ItemStack[] stacks = inventory.slots;
 		ArrayList<Fluid> filter = new ArrayList<Fluid>();
 		if (stacks.length == 0)
