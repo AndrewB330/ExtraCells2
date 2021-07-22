@@ -31,24 +31,6 @@ public class NameHandler implements ISubItemResolver {
 		if (fullName.equals("fluidCellPortable"))
 			return new ResolverResult(ItemEnum.FLUIDSTORAGEPORTABLE.getInternalName(), 0);
 
-		// Gas Cells
-		if (fullName.equals("gasCell1k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 0);
-		if (fullName.equals("gasCell4k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 1);
-		if (fullName.equals("gasCell16k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 2);
-		if (fullName.equals("gasCell64k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 3);
-		if (fullName.equals("gasCell256k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 4);
-		if (fullName.equals("gasCell1024k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 5);
-		if (fullName.equals("gasCell4096k"))
-			return new ResolverResult(ItemEnum.GASSTORAGE.getInternalName(), 6);
-		if (fullName.equals("gasCellPortable"))
-			return new ResolverResult(ItemEnum.GASSTORAGEPORTABLE.getInternalName(), 0);
-
 		// Physical Cells
 		if (fullName.equals("physCell256k"))
 			return new ResolverResult(ItemEnum.PHYSICALSTORAGE.getInternalName(), 0);
@@ -76,22 +58,6 @@ public class NameHandler implements ISubItemResolver {
 			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 9);
 		if (fullName.equals("cell4096kPartFluid"))
 			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 10);
-
-		// Gas Storage Components
-		if (fullName.equals("cell1kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 11);
-		if (fullName.equals("cell4kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 12);
-		if (fullName.equals("cell16kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 13);
-		if (fullName.equals("cell64kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 14);
-		if (fullName.equals("cell256kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 15);
-		if (fullName.equals("cell1024kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 16);
-		if (fullName.equals("cell4096kPartGas"))
-			return new ResolverResult(ItemEnum.STORAGECOMPONET.getInternalName(), 17);
 
 		// Physical Storage Components
 		if (fullName.equals("cell256kPart"))
@@ -146,20 +112,6 @@ public class NameHandler implements ISubItemResolver {
 			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDCONVERSIONMONITOR.ordinal());
 		if (fullName.equals("partOreDictExportBus"))
 			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.OREDICTEXPORTBUS.ordinal());
-		if (fullName.equals("partGasImportBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASIMPORT.ordinal());
-		if (fullName.equals("partGasExportBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASEXPORT.ordinal());
-		if (fullName.equals("partGasStorageBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASSTORAGE.ordinal());
-		if (fullName.equals("partGasTerminal"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASTERMINAL.ordinal());
-		if (fullName.equals("partGasLevelEmitter"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASLEVELEMITTER.ordinal());
-		if (fullName.equals("partGasStorageMonitor"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASMONITOR.ordinal());
-		if (fullName.equals("partGasConversionMonitor"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.GASCONVERSIONMONITOR.ordinal());
 
 		// MISC
 		if (fullName.equals("certusTank"))
@@ -170,8 +122,6 @@ public class NameHandler implements ISubItemResolver {
 			return new ResolverResult(BlockEnum.FLUIDCRAFTER.getInternalName(), 0);
 		if (fullName.equals("wirelessFluidTerminal"))
 			return new ResolverResult(ItemEnum.FLUIDWIRELESSTERMINAL.getInternalName(), 0);
-		if (fullName.equals("wirelessGasTerminal"))
-			return new ResolverResult(ItemEnum.GASWIRELESSTERMINAL.getInternalName(), 0);
 		if (fullName.equals("walrus"))
 			return new ResolverResult(BlockEnum.WALRUS.getInternalName(), 0);
 		if (fullName.equals("interface"))

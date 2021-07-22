@@ -7,7 +7,7 @@ import appeng.api.AEApi
 import appeng.api.features.IWirelessTermHandler
 import appeng.api.util.IConfigManager
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import extracells.api.{ECApi, IWirelessFluidTermHandler, IWirelessGasTermHandler}
+import extracells.api.{ECApi, IWirelessFluidTermHandler}
 import extracells.integration.Integration
 import extracells.integration.WirelessCrafting.WirelessCrafting
 import extracells.integration.thaumaticenergistics.ThaumaticEnergistics
@@ -21,9 +21,8 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.{IIcon, StatCollector}
 import net.minecraft.world.World
 
-object ItemWirelessTerminalUniversal extends ItemECBase with WirelessTermBase with IWirelessFluidTermHandler with IWirelessGasTermHandler with IWirelessTermHandler with EssensiaTerminal with CraftingTerminal{
+object ItemWirelessTerminalUniversal extends ItemECBase with WirelessTermBase with IWirelessFluidTermHandler with IWirelessTermHandler with EssensiaTerminal with CraftingTerminal{
   val isTeEnabled = Integration.Mods.THAUMATICENERGISTICS.isEnabled
-  val isMekEnabled = Integration.Mods.MEKANISMGAS.isEnabled
   val isWcEnabled = Integration.Mods.WIRELESSCRAFTING.isEnabled
   var icon :IIcon = null
   def THIS = this
@@ -77,7 +76,6 @@ object ItemWirelessTerminalUniversal extends ItemECBase with WirelessTermBase wi
     val matchted = tag.getByte("type") match {
       case 0 => AEApi.instance.registries.wireless.openWirelessTerminalGui(itemStack, world, entityPlayer)
       case 1 => ECApi.instance.openWirelessFluidTerminal(entityPlayer, itemStack, world)
-      case 2 => ECApi.instance.openWirelessGasTerminal(entityPlayer, itemStack, world)
       case 3 => if(isTeEnabled) ThaumaticEnergistics.openEssentiaTerminal(entityPlayer, this)
       case _ =>
     }
@@ -90,16 +88,12 @@ object ItemWirelessTerminalUniversal extends ItemECBase with WirelessTermBase wi
       case 0 =>
         if(installed.contains(TerminalType.FLUID))
           tag.setByte("type", 1)
-        else if(isMekEnabled && installed.contains(TerminalType.GAS))
-          tag.setByte("type", 2)
         else if(isTeEnabled && installed.contains(TerminalType.ESSENTIA))
           tag.setByte("type", 3)
         else if(isWcEnabled && installed.contains(TerminalType.CRAFTING))
           tag.setByte("type", 4)
       case 1 =>
-        if(isMekEnabled && installed.contains(TerminalType.GAS))
-          tag.setByte("type", 2)
-        else if(isTeEnabled && installed.contains(TerminalType.ESSENTIA))
+        if(isTeEnabled && installed.contains(TerminalType.ESSENTIA))
           tag.setByte("type", 3)
         else if(isWcEnabled && installed.contains(TerminalType.CRAFTING))
           tag.setByte("type", 4)
@@ -121,15 +115,11 @@ object ItemWirelessTerminalUniversal extends ItemECBase with WirelessTermBase wi
           tag.setByte("type", 0)
         else if(installed.contains(TerminalType.FLUID))
           tag.setByte("type", 1)
-        else if(isMekEnabled && installed.contains(TerminalType.GAS))
-          tag.setByte("type", 2)
       case _ =>
         if(installed.contains(TerminalType.ITEM))
           tag.setByte("type", 0)
         else if(installed.contains(TerminalType.FLUID))
           tag.setByte("type", 1)
-        else if(isMekEnabled && installed.contains(TerminalType.GAS))
-          tag.setByte("type", 2)
         else if(isTeEnabled && installed.contains(TerminalType.ESSENTIA))
           tag.setByte("type", 3)
         else if(isWcEnabled && installed.contains(TerminalType.CRAFTING))

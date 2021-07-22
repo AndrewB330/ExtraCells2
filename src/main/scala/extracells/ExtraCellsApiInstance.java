@@ -5,12 +5,10 @@ import appeng.api.implementations.tiles.IWirelessAccessPoint;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridHost;
 import appeng.api.networking.IGridNode;
-import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.*;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.util.WorldCoord;
-import cpw.mods.fml.common.Optional;
 import extracells.api.*;
 import extracells.api.definitions.IBlockDefinition;
 import extracells.api.definitions.IItemDefinition;
@@ -18,27 +16,17 @@ import extracells.api.definitions.IPartDefinition;
 import extracells.definitions.BlockDefinition;
 import extracells.definitions.ItemDefinition;
 import extracells.definitions.PartDefinition;
-import extracells.integration.Integration;
-import extracells.integration.mekanism.gas.GasCellHandler;
-import extracells.integration.mekanism.gas.MekanismGas;
 import extracells.inventory.HandlerItemStorageFluid;
-import extracells.inventory.HandlerItemStorageGas;
 import extracells.network.GuiHandler;
 import extracells.util.FluidCellHandler;
 import extracells.util.FuelBurnTime;
-import extracells.util.GasStorageRegistry;
-import extracells.util.GasUtil;
 import extracells.wireless.WirelessTermRegistry;
-import mekanism.api.gas.Gas;
-import mekanism.api.gas.GasStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +119,7 @@ public class ExtraCellsApiInstance implements ExtraCellsApi {
 	}
 
 	@Override
-	public IWirelessGasFluidTermHandler getWirelessTermHandler(ItemStack is) {
+	public IWirelessOldFluidTermHandler getWirelessTermHandler(ItemStack is) {
 		return WirelessTermRegistry.getWirelessTermHandler(is);
 	}
 
@@ -170,25 +158,6 @@ public class ExtraCellsApiInstance implements ExtraCellsApi {
 	}
 
 	@Override
-	public ItemStack openPortableGasCellGui(EntityPlayer player, ItemStack stack, World world) {
-		if (world.isRemote || stack == null || stack.getItem() == null)
-			return stack;
-		Item item = stack.getItem();
-		if (!(item instanceof IPortableGasStorageCell))
-			return stack;
-		ICellHandler cellHandler = AEApi.instance().registries().cell().getHandler(stack);
-		if (!(cellHandler instanceof GasCellHandler))
-			return stack;
-		IMEInventoryHandler<IAEFluidStack> handler = ((GasCellHandler) cellHandler).getCellInventoryPlayer(stack, player);
-		if (!(handler instanceof HandlerItemStorageGas)) {
-			return stack;
-		}
-		IMEMonitor<IAEFluidStack> fluidInventory = new MEMonitorHandler<IAEFluidStack>(handler, StorageChannel.FLUIDS);
-		GuiHandler.launchGui(GuiHandler.getGuiId(6), player, new Object[]{fluidInventory, item});
-		return stack;
-	}
-
-	@Override
 	public ItemStack openWirelessTerminal(EntityPlayer player, ItemStack stack, World world) {
 		return openWirelessFluidTerminal(player, stack, world);
 	}
@@ -199,7 +168,7 @@ public class ExtraCellsApiInstance implements ExtraCellsApi {
 			return stack;
 		if (!isWirelessFluidTerminal(stack))
 			return stack;
-		IWirelessGasFluidTermHandler handler = getWirelessTermHandler(stack);
+		IWirelessOldFluidTermHandler handler = getWirelessTermHandler(stack);
 		if (!handler.hasPower(player, 1.0D, stack))
 			return stack;
 		Long key;
@@ -209,51 +178,6 @@ public class ExtraCellsApiInstance implements ExtraCellsApi {
 			return stack;
 		}
 		return openWirelessTerminal(player, stack, world, (int) player.posX, (int) player.posY, (int) player.posZ, key);
-	}
-
-	@Override
-	public ItemStack openWirelessGasTerminal(EntityPlayer player, ItemStack itemStack, World world) {
-		if (world.isRemote)
-			return itemStack;
-		if (!isWirelessFluidTerminal(itemStack))
-			return itemStack;
-		IWirelessGasFluidTermHandler handler = getWirelessTermHandler(itemStack);
-		if (!handler.hasPower(player, 1.0D, itemStack))
-			return itemStack;
-		Long key;
-		try {
-			key = Long.parseLong(handler.getEncryptionKey(itemStack));
-		} catch (Throwable ignored) {
-			return itemStack;
-		}
-		int x = (int) player.posX;
-		int y = (int) player.posY;
-		int z = (int) player.posZ;
-		IGridHost securityTerminal = (IGridHost) AEApi.instance().registries().locatable().getLocatableBy(key);
-		if (securityTerminal == null)
-			return itemStack;
-		IGridNode gridNode = securityTerminal.getGridNode(ForgeDirection.UNKNOWN);
-		if (gridNode == null)
-			return itemStack;
-		IGrid grid = gridNode.getGrid();
-		if (grid == null)
-			return itemStack;
-		for (IGridNode node : grid.getMachines((Class<? extends IGridHost>) AEApi.instance().definitions().blocks().wireless().maybeEntity().get())) {
-			IWirelessAccessPoint accessPoint = (IWirelessAccessPoint) node.getMachine();
-			WorldCoord distance = accessPoint.getLocation().subtract(x, y, z);
-			int squaredDistance = distance.x * distance.x + distance.y * distance.y + distance.z * distance.z;
-			if (squaredDistance <= accessPoint.getRange() * accessPoint.getRange()) {
-				IStorageGrid gridCache = grid.getCache(IStorageGrid.class);
-				if (gridCache != null) {
-					IMEMonitor<IAEFluidStack> fluidInventory = gridCache.getFluidInventory();
-					if (fluidInventory != null) {
-						GuiHandler.launchGui(GuiHandler.getGuiId(5), player, new Object[]{
-								fluidInventory, getWirelessTermHandler(itemStack)});
-					}
-				}
-			}
-		}
-		return itemStack;
 	}
 
 	@Deprecated
@@ -296,7 +220,7 @@ public class ExtraCellsApiInstance implements ExtraCellsApi {
 	}
 
 	@Override
-	public void registerWirelessTermHandler(IWirelessGasFluidTermHandler handler) {
+	public void registerWirelessTermHandler(IWirelessOldFluidTermHandler handler) {
 		WirelessTermRegistry.registerWirelessTermHandler(handler);
 	}
 
@@ -319,68 +243,4 @@ public class ExtraCellsApiInstance implements ExtraCellsApi {
 		FuelBurnTime.registerFuel(fuel, burnTime);
 	}
 
-	@Override
-	public boolean isGasStack(IAEFluidStack stack) {
-		return stack != null && isGasStack(stack.getFluidStack());
-	}
-
-	@Override
-	public boolean isGasStack(FluidStack stack) {
-		return stack != null && isGas(stack.getFluid());
-	}
-
-	@Override
-	public boolean isGas(Fluid fluid) {
-		return fluid != null && Integration.Mods.MEKANISMGAS.isEnabled() && checkGas(fluid);
-	}
-
-	@Override
-	public Object createGasStack(IAEFluidStack stack) {
-		return Integration.Mods.MEKANISMGAS.isEnabled() ? createGasFromFluidStack(stack) : null;
-	}
-
-	@Override
-	public IAEFluidStack createFluidStackFromGas(Object gasStack) {
-		return isMekEnabled() ? createFluidStackFromGasStack(gasStack): null;
-	}
-
-	@Override
-	public Fluid getGasFluid(Object gas) {
-		return isMekEnabled() ? createFluidFromGas(gas) : null;
-	}
-
-	@Override
-	public void addExternalStorageInterface(IExternalGasStorageHandler esh) {
-		if(isMekEnabled())
-			GasStorageRegistry.addExternalStorageInterface(esh);
-	}
-
-	@Override
-	public IExternalGasStorageHandler getHandler(TileEntity te, ForgeDirection opposite, BaseActionSource mySrc) {
-		return isMekEnabled() ? GasStorageRegistry.getHandler(te, opposite, mySrc) : null;
-	}
-
-	@Optional.Method(modid = "MekanismAPI|gas")
-	private IAEFluidStack createFluidStackFromGasStack(Object gasStack){
-		return gasStack instanceof GasStack ? GasUtil.createAEFluidStack((GasStack) gasStack) : null;
-	}
-
-	@Optional.Method(modid = "MekanismAPI|gas")
-	private Fluid createFluidFromGas(Object gas){
-		return gas instanceof Gas ? MekanismGas.getFluidGasMap().containsKey(gas) ? MekanismGas.getFluidGasMap().get(gas) : null : null;
-	}
-
-	@Optional.Method(modid = "MekanismAPI|gas")
-	private Object createGasFromFluidStack(IAEFluidStack stack) {
-		return stack == null ? null : GasUtil.getGasStack(stack.getFluidStack());
-	}
-
-	@Optional.Method(modid = "MekanismAPI|gas")
-	private boolean checkGas(Fluid fluid) {
-		return fluid instanceof MekanismGas.GasFluid;
-	}
-
-	private boolean isMekEnabled(){
-		return Integration.Mods.MEKANISMGAS.isEnabled();
-	}
 }

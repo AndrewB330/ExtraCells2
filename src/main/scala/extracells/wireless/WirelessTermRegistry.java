@@ -1,6 +1,6 @@
 package extracells.wireless;
 
-import extracells.api.IWirelessGasFluidTermHandler;
+import extracells.api.IWirelessOldFluidTermHandler;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -8,10 +8,10 @@ import java.util.List;
 
 public class WirelessTermRegistry {
 
-	public static IWirelessGasFluidTermHandler getWirelessTermHandler(ItemStack is) {
+	public static IWirelessOldFluidTermHandler getWirelessTermHandler(ItemStack is) {
 		if (is == null)
 			return null;
-		for (IWirelessGasFluidTermHandler handler : handlers) {
+		for (IWirelessOldFluidTermHandler handler : handlers) {
 			if (handler.canHandle(is))
 				return handler;
 		}
@@ -21,7 +21,7 @@ public class WirelessTermRegistry {
 	public static boolean isWirelessItem(ItemStack is) {
 		if (is == null)
 			return false;
-		for (IWirelessGasFluidTermHandler handler : handlers) {
+		for (IWirelessOldFluidTermHandler handler : handlers) {
 			if (handler.canHandle(is))
 				return true;
 		}
@@ -29,11 +29,11 @@ public class WirelessTermRegistry {
 	}
 
 	public static void registerWirelessTermHandler(
-			IWirelessGasFluidTermHandler handler) {
+			IWirelessOldFluidTermHandler handler) {
 		if (!handlers.contains(handler))
 			handlers.add(handler);
 	}
 
-	static List<IWirelessGasFluidTermHandler> handlers = new ArrayList<IWirelessGasFluidTermHandler>();
+	static List<IWirelessOldFluidTermHandler> handlers = new ArrayList<IWirelessOldFluidTermHandler>();
 
 }

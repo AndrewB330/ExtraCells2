@@ -52,11 +52,6 @@ public abstract class ThEApi
 	public abstract IThEConfig config();
 
 	/**
-	 * Essentia Gasses
-	 */
-	public abstract ImmutableList<List<IThEEssentiaGas>> essentiaGases();
-
-	/**
 	 * Gets the ThE interaction manager
 	 * 
 	 * @return

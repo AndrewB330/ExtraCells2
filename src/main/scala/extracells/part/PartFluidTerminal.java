@@ -14,7 +14,6 @@ import appeng.api.util.AEColor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import extracells.container.ContainerFluidTerminal;
-import extracells.container.ContainerGasTerminal;
 import extracells.gridblock.ECBaseGridBlock;
 import extracells.gui.GuiFluidTerminal;
 import extracells.network.packet.part.PacketFluidTerminal;
@@ -77,11 +76,6 @@ public class PartFluidTerminal extends PartECBase implements IGridTickable,
 
 	public void addContainer(ContainerFluidTerminal containerTerminalFluid) {
 		this.containers.add(containerTerminalFluid);
-		sendCurrentFluid();
-	}
-
-	public void addContainer(ContainerGasTerminal containerTerminalGas) {
-		this.containers.add(containerTerminalGas);
 		sendCurrentFluid();
 	}
 
@@ -209,10 +203,6 @@ public class PartFluidTerminal extends PartECBase implements IGridTickable,
 		this.containers.remove(containerTerminalFluid);
 	}
 
-	public void removeContainer(ContainerGasTerminal containerTerminalGas) {
-		this.containers.remove(containerTerminalGas);
-	}
-
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void renderInventory(IPartRenderHelper rh, RenderBlocks renderer) {
@@ -290,11 +280,7 @@ public class PartFluidTerminal extends PartECBase implements IGridTickable,
 		if(container instanceof ContainerFluidTerminal){
 			ContainerFluidTerminal containerFluidTerminal = (ContainerFluidTerminal) container;
 			new PacketFluidTerminal(containerFluidTerminal.getPlayer(), this.currentFluid).sendPacketToPlayer(containerFluidTerminal.getPlayer());
-		}else if(container instanceof ContainerGasTerminal){
-			ContainerGasTerminal containerGasTerminal = (ContainerGasTerminal) container;
-			new PacketFluidTerminal(containerGasTerminal.getPlayer(), this.currentFluid).sendPacketToPlayer(containerGasTerminal.getPlayer());
 		}
-
 	}
 
 	public void setCurrentFluid(Fluid _currentFluid) {

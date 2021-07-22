@@ -6,9 +6,7 @@ import appeng.api.storage.data.IItemList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import extracells.container.ContainerFluidTerminal;
-import extracells.container.ContainerGasTerminal;
 import extracells.gui.GuiFluidTerminal;
-import extracells.gui.GuiGasTerminal;
 import extracells.network.AbstractPacket;
 import extracells.part.PartFluidTerminal;
 import io.netty.buffer.ByteBuf;
@@ -72,10 +70,6 @@ public class PacketFluidTerminal extends AbstractPacket {
 				ContainerFluidTerminal fluidContainer = (ContainerFluidTerminal) this.player.openContainer;
 				fluidContainer.forceFluidUpdate();
 				this.terminalFluid.sendCurrentFluid(fluidContainer);
-			} else if (this.player != null && this.player.openContainer instanceof ContainerGasTerminal) {
-				ContainerGasTerminal fluidContainer = (ContainerGasTerminal) this.player.openContainer;
-				fluidContainer.forceFluidUpdate();
-				this.terminalFluid.sendCurrentFluid(fluidContainer);
 			}
 			break;
 		}
@@ -88,9 +82,6 @@ public class PacketFluidTerminal extends AbstractPacket {
 			if (gui instanceof GuiFluidTerminal) {
 				ContainerFluidTerminal container = (ContainerFluidTerminal) ((GuiFluidTerminal) gui).inventorySlots;
 				container.updateFluidList(this.fluidStackList);
-			} else if (gui instanceof GuiGasTerminal) {
-				ContainerGasTerminal container = (ContainerGasTerminal) ((GuiGasTerminal) gui).inventorySlots;
-				container.updateFluidList(this.fluidStackList);
 			}
 		}
 	}
@@ -100,9 +91,6 @@ public class PacketFluidTerminal extends AbstractPacket {
 		if (this.player != null && Minecraft.getMinecraft().currentScreen instanceof GuiFluidTerminal) {
 			GuiFluidTerminal gui = (GuiFluidTerminal) Minecraft.getMinecraft().currentScreen;
 			((ContainerFluidTerminal) gui.getContainer()).receiveSelectedFluid(this.currentFluid);
-		} else if (this.player != null && Minecraft.getMinecraft().currentScreen instanceof GuiGasTerminal) {
-			GuiGasTerminal gui = (GuiGasTerminal) Minecraft.getMinecraft().currentScreen;
-			((ContainerGasTerminal) gui.getContainer()).receiveSelectedFluid(this.currentFluid);
 		}
 	}
 

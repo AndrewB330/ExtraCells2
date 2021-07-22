@@ -12,17 +12,14 @@ public enum ItemEnum {
 	PARTITEM("part.base", new ItemPartECBase()),
 	FLUIDSTORAGE("storage.fluid", new ItemStorageFluid()),
 	PHYSICALSTORAGE("storage.physical", new ItemStoragePhysical()),
-	GASSTORAGE("storage.gas", new ItemStorageGas(), Integration.Mods.MEKANISMGAS),
 	FLUIDPATTERN("pattern.fluid", new ItemFluidPattern()),
 	FLUIDWIRELESSTERMINAL("terminal.fluid.wireless", ItemWirelessTerminalFluid.THIS()),
 	STORAGECOMPONET("storage.component", new ItemStorageComponent()),
 	STORAGECASING("storage.casing", new ItemStorageCasing()),
 	FLUIDITEM("fluid.item", new ItemFluid(), null, null), // Internal EC Item
 	FLUIDSTORAGEPORTABLE("storage.fluid.portable", ItemStoragePortableFluidCell.THIS()),
-	GASSTORAGEPORTABLE("storage.gas.portable", ItemStoragePortableGasCell.THIS(), Integration.Mods.MEKANISMGAS),
 	CRAFTINGPATTERN("pattern.crafting", new ItemInternalCraftingPattern(), null, null),// Internal EC Item
 	UNIVERSALTERMINAL("terminal.universal.wireless", ItemWirelessTerminalUniversal.THIS()),
-	GASWIRELESSTERMINAL("terminal.gas.wireless", ItemWirelessTerminalGas.THIS(), Integration.Mods.MEKANISMGAS),
 	OCUPGRADE("oc.upgrade", ItemOCUpgrade.THIS(), Integration.Mods.OPENCOMPUTERS);
 
 	private final String internalName;

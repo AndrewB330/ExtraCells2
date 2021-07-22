@@ -32,17 +32,6 @@ object GuiHandler extends IGuiHandler {
 			val fluidInventory3 = args.apply(0).asInstanceOf[IMEMonitor[IAEFluidStack]]
 			val storageCell =  args.apply(1).asInstanceOf[IPortableFluidStorageCell]
 			new ContainerFluidStorage(fluidInventory3, player, storageCell)
-		case 4 =>
-			val fluidInventory = args.apply(0).asInstanceOf[IMEMonitor[IAEFluidStack]]
-			new ContainerGasStorage(fluidInventory, player)
-		case 5 =>
-			val fluidInventory2 = args.apply(0).asInstanceOf[IMEMonitor[IAEFluidStack]]
-			val handler = args.apply(1).asInstanceOf[IWirelessGasTermHandler]
-			new ContainerGasStorage(fluidInventory2, player, handler)
-		case 6 =>
-			val fluidInventory3 = args.apply(0).asInstanceOf[IMEMonitor[IAEFluidStack]]
-			val storageCell =  args.apply(1).asInstanceOf[IPortableGasStorageCell]
-			new ContainerGasStorage(fluidInventory3, player, storageCell)
 		case _ =>
 			null
 		}
@@ -57,12 +46,6 @@ object GuiHandler extends IGuiHandler {
 			new GuiFluidStorage(player, "extracells.part.fluid.terminal.name");
 		case 3 =>
 			new GuiFluidStorage(player, "extracells.item.storage.fluid.portable.name");
-		case 4 =>
-			new GuiGasStorage(player, "extracells.part.gas.terminal.name");
-		case 5 =>
-			new GuiGasStorage(player, "extracells.part.gas.terminal.name");
-		case 6 =>
-			new GuiGasStorage(player, "extracells.item.storage.gas.portable.name");
 		case _ =>
 			null;
 		}

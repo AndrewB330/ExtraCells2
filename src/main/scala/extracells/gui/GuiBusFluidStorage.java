@@ -9,7 +9,6 @@ import extracells.integration.Integration;
 import extracells.network.packet.other.IFluidSlotGui;
 import extracells.network.packet.part.PacketBusFluidStorage;
 import extracells.part.PartFluidStorage;
-import extracells.part.PartGasStorage;
 import extracells.util.FluidUtil;
 import extracells.util.GuiUtil;
 import net.minecraft.client.Minecraft;
@@ -145,11 +144,7 @@ public class GuiBusFluidStorage extends ECGuiContainer implements
 		super.mouseClicked(mouseX, mouseY, mouseBtn);
 		for (WidgetFluidSlot fluidSlot : this.fluidSlotList) {
 			if (GuiUtil.isPointInRegion(this.guiLeft, this.guiTop, fluidSlot.getPosX(), fluidSlot.getPosY(), 18, 18, mouseX, mouseY)) {
-				if(part instanceof PartGasStorage && Integration.Mods.MEKANISMGAS.isEnabled())
-					fluidSlot.mouseClickedGas(this.player.inventory.getItemStack());
-				else
-					fluidSlot.mouseClicked(this.player.inventory.getItemStack());
-				break;
+				fluidSlot.mouseClicked(this.player.inventory.getItemStack());
 			}
 		}
 	}
@@ -172,10 +167,7 @@ public class GuiBusFluidStorage extends ECGuiContainer implements
 		Fluid fluid = containerFluid == null ? null : containerFluid.getFluid();
 		for (WidgetFluidSlot fluidSlot : this.fluidSlotList) {
 			if (fluidSlot.getFluid() == null || fluid != null && fluidSlot.getFluid() == fluid) {
-				if(part instanceof PartGasStorage && Integration.Mods.MEKANISMGAS.isEnabled())
-					fluidSlot.mouseClickedGas(itemStack);
-				else
-					fluidSlot.mouseClicked(itemStack);
+				fluidSlot.mouseClicked(itemStack);
 				return;
 			}
 		}

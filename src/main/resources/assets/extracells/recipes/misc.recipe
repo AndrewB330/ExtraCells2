@@ -37,12 +37,6 @@ shaped=
 	ae2:BlockDenseEnergyCell
 	-> ec:wirelessFluidTerminal
 
-shaped=
-	ae2:ItemMaterial.Wireless,
-	ec:partGasTerminal,
-	ae2:BlockDenseEnergyCell
-	-> ec:wirelessGasTerminal
-
 shapeless=
     ec:fluidCrafter ec:partFluidTerminal
     -> ec:fluidFiller

@@ -14,7 +14,7 @@ import java.util.List;
 public class ItemStorageCasing extends ItemECBase {
 
 	private IIcon[] icons;
-	public final String[] suffixes = { "physical", "fluid", "gas" };
+	public final String[] suffixes = { "physical", "fluid" };
 
 	public ItemStorageCasing() {
 		setMaxDamage(0);
@@ -32,7 +32,6 @@ public class ItemStorageCasing extends ItemECBase {
 	@Override
 	public void getSubItems(Item item, CreativeTabs creativeTab, List itemList) {
 		for (int j = 0; j < this.suffixes.length; ++j) {
-			if(!(suffixes[j].contains("gas") && !Integration.Mods.MEKANISMGAS.isEnabled()))
 			itemList.add(new ItemStack(item, 1, j));
 		}
 	}
