@@ -3,16 +3,14 @@ package extracells.util.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ECBaseInventory implements IInventory {
+public class InventoryBase implements IInventory {
 
     public final ItemStack[] slots; // todo: rename to stacks
 
@@ -21,7 +19,7 @@ public class ECBaseInventory implements IInventory {
 
     private IInventoryUpdateReceiver receiver;
 
-    public ECBaseInventory(String _customName, int _size, int _stackLimit) {
+    public InventoryBase(String _customName, int _size, int _stackLimit) {
         this.slots = new ItemStack[_size];
         this.customName = _customName;
         this.stackLimit = _stackLimit;

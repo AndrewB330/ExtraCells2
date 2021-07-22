@@ -18,9 +18,8 @@ import extracells.gui.widget.fluid.IFluidSelectorContainer;
 import extracells.inventory.HandlerItemStorageFluid;
 import extracells.network.packet.part.PacketFluidStorage;
 import extracells.util.FluidUtil;
-import extracells.util.inventory.ECFluidInventory;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.IInventoryUpdateReceiver;
+import extracells.util.inventory.InventoryFluids;
+import extracells.util.inventory.InventoryBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -44,7 +43,7 @@ public class ContainerFluidStorage extends Container implements
     private IWirelessFluidTermHandler handler = null;
     private IPortableFluidStorageCell storageCell = null;
     public boolean hasWirelessTermHandler = false;
-    private ECBaseInventory inventory = new ECFluidInventory("extracells.item.fluid.storage", 2, 64);
+    private InventoryBase inventory = new InventoryFluids("extracells.item.fluid.storage", 2, 64);
 
     public ContainerFluidStorage(EntityPlayer _player) {
         this(null, _player);

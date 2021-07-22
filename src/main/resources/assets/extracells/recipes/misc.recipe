@@ -40,12 +40,6 @@ shaped=
 shapeless=
     ec:fluidCrafter ec:partFluidTerminal
     -> ec:fluidFiller
-	
-shaped= 
-	mc:iron_ingot mc:iron_ingot mc:iron_ingot,
-	mc:iron_ingot ec:certusTank mc:iron_ingot,
-	mc:iron_ingot ae2:BlockVibrationChamber mc:iron_ingot
-	-> ec:blockVibrationChamberFluid
 
 shaped=
 	mc:obsidian densecable mc:obsidian,

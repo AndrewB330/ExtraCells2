@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TileEntityFluidInterface extends TileBase implements
+public class TileEntityFluidInterface extends TileEntityBase implements
 		IActionHost, IFluidHandler, IECTileEntity, IFluidInterface,
 		IFluidSlotPartOrBlock, ITileStorageMonitorable, IStorageMonitorable,
 		ICraftingProvider, IWailaTile {

@@ -20,7 +20,6 @@ public enum PartEnum {
 	FLUIDPANEANNIHILATION("fluid.plane.annihilation", PartFluidPlaneAnnihilation.class, "fluid.plane"),
 	FLUIDPANEFORMATION("fluid.plane.formation", PartFluidPlaneFormation.class, "fluid.plane"),
 	DRIVE("drive", PartDrive.class),
-	BATTERY("battery", PartBattery.class),
 	INTERFACE("interface", PartFluidInterface.class),
 	FLUIDMONITOR("fluid.monitor", PartFluidStorageMonitor.class),
 	FLUIDCONVERSIONMONITOR("fluid.conversion.monitor", PartFluidConversionMonitor.class),

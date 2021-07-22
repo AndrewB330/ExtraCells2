@@ -26,9 +26,7 @@ import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.PacketBusFluidStorage;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.ECUpgradesInventory;
-import extracells.util.inventory.IInventoryUpdateReceiver;
+import extracells.util.inventory.InventoryUpgrades;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +53,7 @@ public class PartFluidStorage extends PartWithInventory implements ICellContaine
     private AccessRestriction access = AccessRestriction.READ_WRITE;
 
     public PartFluidStorage() {
-        super(new ECUpgradesInventory(1, ECUpgradesInventory.UPGRADE_INVERTED), "upgradeInventory");
+        super(new InventoryUpgrades(1, InventoryUpgrades.UPGRADE_INVERTED), "upgradeInventory");
     }
 
     @Override

@@ -1,30 +1,27 @@
 package extracells.tileentity;
 
-import extracells.util.inventory.ECBaseInventory;
+import extracells.util.inventory.InventoryBase;
 import extracells.util.inventory.IInventoryUpdateReceiver;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.util.List;
-
-public abstract class TileWithInventory extends TileBase implements IInventoryUpdateReceiver {
+public abstract class TileEntityWithInventory extends TileEntityBase implements IInventoryUpdateReceiver {
     // We need this for back-compatibility, so that inventories that has
     // different names than default will not disappear.
 
     private final String inventoryName;
-    private final ECBaseInventory inventory;
+    private final InventoryBase inventory;
 
-    public TileWithInventory(ECBaseInventory inventory, String inventoryName) {
+    public TileEntityWithInventory(InventoryBase inventory, String inventoryName) {
         this.inventory = inventory;
         this.inventoryName = inventoryName;
         inventory.setReceiver(this);
     }
 
-    public TileWithInventory(ECBaseInventory inventory) {
+    public TileEntityWithInventory(InventoryBase inventory) {
         this(inventory, "inventory");
     }
 
-    public ECBaseInventory getInventory() {
+    public InventoryBase getInventory() {
         return inventory;
     }
 

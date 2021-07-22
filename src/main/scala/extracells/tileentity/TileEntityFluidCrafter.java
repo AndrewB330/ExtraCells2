@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TileEntityFluidCrafter extends TileBase implements IActionHost,
+public class TileEntityFluidCrafter extends TileEntityBase implements IActionHost,
 		ICraftingProvider, ICraftingWatcherHost, IECTileEntity {
 
 	private class FluidCrafterInventory implements IInventory {

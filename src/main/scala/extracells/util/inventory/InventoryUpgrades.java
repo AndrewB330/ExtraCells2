@@ -1,11 +1,10 @@
 package extracells.util.inventory;
 
 import appeng.api.AEApi;
-import appeng.api.definitions.IDefinitions;
 import appeng.api.definitions.IMaterials;
 import net.minecraft.item.ItemStack;
 
-public class ECUpgradesInventory extends ECBaseInventory {
+public class InventoryUpgrades extends InventoryBase {
 
     public final static int UPGRADE_SPEED =    0b00000001;
     public final static int UPGRADE_CAPACITY = 0b00000010;
@@ -19,7 +18,7 @@ public class ECUpgradesInventory extends ECBaseInventory {
 
     private final int allowedUpgrades;
 
-    public ECUpgradesInventory(int _size, int allowedUpgrades) {
+    public InventoryUpgrades(int _size, int allowedUpgrades) {
         super("upgrades", _size, 1);
         this.allowedUpgrades = allowedUpgrades;
     }

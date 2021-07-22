@@ -19,15 +19,12 @@ import extracells.container.ContainerDrive;
 import extracells.gui.GuiDrive;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.ECCellInventory;
-import extracells.util.inventory.IInventoryUpdateReceiver;
+import extracells.util.inventory.InventoryCells;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
@@ -45,7 +42,7 @@ public class PartDrive extends PartWithInventory implements ICellContainer {
 	List<IMEInventoryHandler> itemHandlers = new ArrayList<IMEInventoryHandler>();
 
 	public PartDrive() {
-		super(new ECCellInventory("extracells.part.drive", 6, 1));
+		super(new InventoryCells("extracells.part.drive", 6, 1));
 	}
 
 	@Override

@@ -17,9 +17,7 @@ import extracells.gui.GuiBusFluidIO;
 import extracells.network.packet.other.IFluidSlotPartOrBlock;
 import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.PacketBusFluidIO;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.ECUpgradesInventory;
-import extracells.util.inventory.IInventoryUpdateReceiver;
+import extracells.util.inventory.InventoryUpgrades;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,7 +42,7 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
     protected boolean redstoneControlled;
 
     public PartFluidIO() {
-        super(new ECUpgradesInventory(4, ECUpgradesInventory.UPGRADES_IO), "upgradeInventory");
+        super(new InventoryUpgrades(4, InventoryUpgrades.UPGRADES_IO), "upgradeInventory");
     }
 
     // TODO: check this

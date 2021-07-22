@@ -48,7 +48,6 @@ extracells.part.fluid.plane.annihilation.name=МЭ жидкостная плос
 extracells.part.fluid.plane.formation.name=МЭ жидкостная плоскость формирования
 extracells.part.fluid.levelemitter.name=МЭ жидкостный излучатель уровня
 extracells.part.drive.name=Прикрепляющийся МЭ накопитель
-extracells.part.battery.name=Прикрепляющийся МЭ энергетическая ячейка
 extracells.part.fluid.conversion.monitor.name=МЭ жидкостный монитор преобразования
 extracells.part.fluid.monitor.name=МЭ жидкостный монитор хранения
 extracells.part.oredict.export.name=МЭ шина экспорта по словарю руд

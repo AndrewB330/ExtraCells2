@@ -19,8 +19,6 @@ public enum TextureManager {
 	PANE_SIDE( TextureType.PART, "pane_side"),
 	DRIVE_FRONT(TextureType.PART, "drive_front_1", "drive_front_2", "drive_front_3", "drive_front_4"),
 	DRIVE_SIDE( TextureType.PART, "drive_side"),
-	BATTERY_FRONT(TextureType.PART, "battery_front_1"),
-	BATTERY_SIDE(TextureType.PART, "battery_side"),
 	LEVEL_FRONT( TextureType.PART, "level_front_1", "level_front_2", "level_front_3"),
 	LEVEL_SIDE( TextureType.PART, "level_side"),
 	INTERFACE(TextureType.PART, "fluid_interface"),

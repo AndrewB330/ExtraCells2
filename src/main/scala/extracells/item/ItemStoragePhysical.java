@@ -7,8 +7,8 @@ import appeng.api.storage.*;
 import appeng.api.storage.data.IAEItemStack;
 import extracells.Extracells;
 import extracells.registries.ItemEnum;
-import extracells.util.inventory.ECConfigInventoryItem;
-import extracells.util.inventory.ECUpgradesInventory;
+import extracells.util.inventory.InventoryConfigItems;
+import extracells.util.inventory.InventoryUpgrades;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,7 +82,7 @@ public class ItemStoragePhysical extends ItemECBase implements IStorageCell {
 
     @Override
     public IInventory getConfigInventory(ItemStack is) {
-        return new ECConfigInventoryItem(63, is);
+        return new InventoryConfigItems(63, is);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ItemStoragePhysical extends ItemECBase implements IStorageCell {
     @Override
     public IInventory getUpgradesInventory(ItemStack stack) {
         // TODO: check which upgrades can be places
-        return new ECUpgradesInventory(2, ECUpgradesInventory.UPGRADES_NONE);
+        return new InventoryUpgrades(2, InventoryUpgrades.UPGRADES_NONE);
     }
 
     @Override

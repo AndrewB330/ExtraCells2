@@ -94,8 +94,6 @@ public class NameHandler implements ISubItemResolver {
 			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDPANEANNIHILATION.ordinal());
 		if (fullName.equals("partFluidFormationPlane"))
 			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDPANEFORMATION.ordinal());
-		if (fullName.equals("partBattery"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.BATTERY.ordinal());
 		if (fullName.equals("partDrive"))
 			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.DRIVE.ordinal());
 		if (fullName.equals("partInterface"))
@@ -126,8 +124,6 @@ public class NameHandler implements ISubItemResolver {
 			return new ResolverResult(BlockEnum.ECBASEBLOCK.getInternalName(), 0);
 		if (fullName.equals("fluidFiller"))
 			return new ResolverResult(BlockEnum.ECBASEBLOCK.getInternalName(), 1);
-		if (fullName.equals("blockVibrationChamberFluid"))
-			return  new ResolverResult(BlockEnum.VIBRANTCHAMBERFLUID.getInternalName(), 0);
 		if (fullName.equals("hardMEDrive"))
 			return new ResolverResult(BlockEnum.BLASTRESISTANTMEDRIVE.getInternalName(), 0);
 

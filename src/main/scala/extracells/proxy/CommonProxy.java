@@ -66,7 +66,6 @@ public class CommonProxy {
 		api.registries().movable().whiteListTileEntity(TileEntityFluidInterface.class);
 		api.registries().movable().whiteListTileEntity(TileEntityFluidFiller.class);
 		api.registries().movable().whiteListTileEntity(TileEntityHardMeDrive.class);
-		api.registries().movable().whiteListTileEntity(TileEntityVibrationChamberFluid.class);
 	}
 
 	public void registerRenderers() {
@@ -80,7 +79,6 @@ public class CommonProxy {
 		GameRegistry.registerTileEntity(TileEntityFluidInterface.class, "tileEntityFluidInterface");
 		GameRegistry.registerTileEntity(TileEntityFluidFiller.class, "tileEntityFluidFiller");
 		GameRegistry.registerTileEntity(TileEntityHardMeDrive.class, "tileEntityHardMEDrive");
-		GameRegistry.registerTileEntity(TileEntityVibrationChamberFluid.class, "tileEntityVibrationChamberFluid");
 	}
 
 	public void registerFluidBurnTimes() {

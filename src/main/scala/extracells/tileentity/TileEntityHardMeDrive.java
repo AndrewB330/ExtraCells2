@@ -11,10 +11,7 @@ import appeng.api.util.AECableType;
 import appeng.api.util.DimensionalCoord;
 import extracells.api.IECTileEntity;
 import extracells.gridblock.ECGridBlockHardMEDrive;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.ECCellInventory;
-import extracells.util.inventory.IInventoryUpdateReceiver;
-import net.minecraft.inventory.IInventory;
+import extracells.util.inventory.InventoryCells;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
@@ -24,7 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityHardMeDrive extends TileWithInventory implements IActionHost, IECTileEntity, ICellContainer {
+public class TileEntityHardMeDrive extends TileEntityWithInventory implements IActionHost, IECTileEntity, ICellContainer {
 
     private  int priority = 0;
     boolean isFirstGridNode = true;
@@ -36,7 +33,7 @@ public class TileEntityHardMeDrive extends TileWithInventory implements IActionH
     IGridNode node = null;
 
     public TileEntityHardMeDrive() {
-        super(new ECCellInventory("extracells.part.drive", 3, 1));
+        super(new InventoryCells("extracells.part.drive", 3, 1));
     }
 
 

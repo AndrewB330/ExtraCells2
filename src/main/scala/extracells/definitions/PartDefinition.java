@@ -10,12 +10,6 @@ public class PartDefinition implements IPartDefinition {
 	public static final PartDefinition instance = new PartDefinition();
 
 	@Override
-	public IItemDefinition partBattery() {
-		return new ItemItemDefinitions(ItemEnum.PARTITEM.getItem(),
-				PartEnum.BATTERY.ordinal());
-	}
-
-	@Override
 	public IItemDefinition partConversionMonitor() {
 		return new ItemItemDefinitions(ItemEnum.PARTITEM.getItem(),
 				PartEnum.FLUIDCONVERSIONMONITOR.ordinal());

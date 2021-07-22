@@ -20,15 +20,11 @@ import extracells.network.packet.part.PacketFluidTerminal;
 import extracells.render.TextureManager;
 import extracells.util.FluidUtil;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.ECFluidInventory;
-import extracells.util.inventory.IInventoryUpdateReceiver;
+import extracells.util.inventory.InventoryFluids;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -47,7 +43,7 @@ public class PartFluidTerminal extends PartWithInventory implements IGridTickabl
     private final List<Object> containers = new ArrayList<Object>();
 
     public PartFluidTerminal() {
-        super(new ECFluidInventory("extracells.part.fluid.terminal", 2, 64));
+        super(new InventoryFluids("extracells.part.fluid.terminal", 2, 64));
     }
 
     protected MachineSource machineSource = new MachineSource(this);

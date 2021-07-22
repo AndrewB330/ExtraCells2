@@ -49,7 +49,6 @@ extracells.part.fluid.plane.annihilation.name=ME Plano de Eliminación de Fluido
 extracells.part.fluid.plane.formation.name=ME Plano de Formación de Fluidos
 extracells.part.fluid.levelemitter.name=ME Emisor de Nivel de Fluido
 extracells.part.drive.name=ME Componente de la Unidad
-extracells.part.battery.name=ME Componente Celular de Energía 
 extracells.part.fluid.conversion.monitor.name=ME Monitor de Conversión de Fluidos
 extracells.part.fluid.monitor.name=ME Monitor de Almacenamiento de Fluido
 extracells.part.oredict.export.name=ME Bus de Exportación de Diccionario de minerales

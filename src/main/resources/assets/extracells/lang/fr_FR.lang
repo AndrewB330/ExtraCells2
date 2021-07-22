@@ -48,7 +48,6 @@ extracells.part.fluid.plane.annihilation.name=Plan d'annihilisation de fluide ME
 extracells.part.fluid.plane.formation.name=Plan de formation de fluide ME
 extracells.part.fluid.levelemitter.name=Emetteur de niveau de fluide ME
 extracells.part.drive.name=Installation de disque ME
-extracells.part.battery.name=Installation de cellule énergétique ME
 
 //Blocks
 extracells.block.certustank=Réservoir en Quartz Certus

@@ -15,6 +15,4 @@ public abstract class IThEBlocks
 	public IThEItemDescription ArcaneAssembler;
 
 	public IThEItemDescription KnowledgeInscriber;
-
-	public IThEItemDescription EssentiaVibrationChamber;
 }

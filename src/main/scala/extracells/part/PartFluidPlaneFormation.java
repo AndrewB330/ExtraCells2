@@ -1,6 +1,5 @@
 package extracells.part;
 
-import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.config.RedstoneMode;
 import appeng.api.config.SecurityPermissions;
@@ -28,14 +27,12 @@ import extracells.render.TextureManager;
 import extracells.util.ColorUtil;
 import extracells.util.FluidUtil;
 import extracells.util.PermissionUtil;
-import extracells.util.inventory.ECBaseInventory;
-import extracells.util.inventory.ECUpgradesInventory;
+import extracells.util.inventory.InventoryUpgrades;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -46,8 +43,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 
-import java.util.List;
-
 public class PartFluidPlaneFormation extends PartWithInventory implements IFluidSlotPartOrBlock, IGridTickable {
 
 	private Fluid fluid;
@@ -55,7 +50,7 @@ public class PartFluidPlaneFormation extends PartWithInventory implements IFluid
 	private RedstoneMode redstoneMode;
 
 	public PartFluidPlaneFormation() {
-		super(new ECUpgradesInventory(1, ECUpgradesInventory.UPGRADE_REDSTONE), "upgradeInventory");
+		super(new InventoryUpgrades(1, InventoryUpgrades.UPGRADE_REDSTONE), "upgradeInventory");
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package extracells.part;
 
-import extracells.util.inventory.ECBaseInventory;
+import extracells.util.inventory.InventoryBase;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,19 +12,19 @@ public abstract class PartWithInventory extends PartECBase implements IInventory
     // different names than default will not disappear.
 
     private final String inventoryName;
-    private final ECBaseInventory inventory;
+    private final InventoryBase inventory;
 
-    public PartWithInventory(ECBaseInventory inventory, String inventoryName) {
+    public PartWithInventory(InventoryBase inventory, String inventoryName) {
         this.inventory = inventory;
         this.inventoryName = inventoryName;
         inventory.setReceiver(this);
     }
 
-    public PartWithInventory(ECBaseInventory inventory) {
+    public PartWithInventory(InventoryBase inventory) {
         this(inventory, "inventory");
     }
 
-    public ECBaseInventory getInventory() {
+    public InventoryBase getInventory() {
         return inventory;
     }
 

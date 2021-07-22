@@ -49,7 +49,6 @@ extracells.part.fluid.plane.annihilation.name=ME Folyadék Megsemmisítő Lap
 extracells.part.fluid.plane.formation.name=ME Folyadék Kialakítő Lap
 extracells.part.fluid.levelemitter.name=ME Folyadék Szint Kibocsátó
 extracells.part.drive.name=ME Meghajtótartó Test
-extracells.part.battery.name=ME Energia Cella Test
 extracells.part.fluid.conversion.monitor.name=ME Folyadék Átváltási Monitor
 extracells.part.fluid.monitor.name=ME Folyadék Tár Monitor
 extracells.part.oredict.export.name=ME Érc Szótár Export Busz
