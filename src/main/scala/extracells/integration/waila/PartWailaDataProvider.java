@@ -3,7 +3,7 @@ package extracells.integration.waila;
 import appeng.api.parts.IPart;
 import appeng.api.parts.IPartHost;
 import appeng.api.parts.SelectedPart;
-import extracells.part.PartECBase;
+import extracells.part.PartBase;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -28,9 +28,9 @@ public class PartWailaDataProvider implements IWailaDataProvider {
 		if (mop != null) {
 			final IPart part = getPart(te, mop);
 
-			if (part != null && part instanceof PartECBase) {
+			if (part != null && part instanceof PartBase) {
 				tag.setTag("partEC",
-						((PartECBase) part).getWailaTag(new NBTTagCompound()));
+						((PartBase) part).getWailaTag(new NBTTagCompound()));
 			}
 		}
 		return tag;
@@ -56,14 +56,14 @@ public class PartWailaDataProvider implements IWailaDataProvider {
 		TileEntity tile = accessor.getTileEntity();
 
 		IPart part = getPart(tile, accessor.getPosition());
-		if (part != null && part instanceof PartECBase) {
+		if (part != null && part instanceof PartBase) {
 			NBTTagCompound tag;
 			if (accessor.getNBTData() != null
 					&& accessor.getNBTData().hasKey("partEC"))
 				tag = accessor.getNBTData().getCompoundTag("partEC");
 			else
 				tag = new NBTTagCompound();
-			return ((PartECBase) part).getWailaBodey(tag, currenttip);
+			return ((PartBase) part).getWailaBody(tag, currenttip);
 		}
 
 		return currenttip;

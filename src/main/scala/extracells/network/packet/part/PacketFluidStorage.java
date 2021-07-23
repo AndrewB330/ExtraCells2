@@ -6,9 +6,7 @@ import appeng.api.storage.data.IItemList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import extracells.container.ContainerFluidStorage;
-import extracells.container.ContainerGasStorage;
 import extracells.gui.GuiFluidStorage;
-import extracells.gui.GuiGasStorage;
 import extracells.integration.Integration;
 import extracells.network.AbstractPacket;
 import io.netty.buffer.ByteBuf;
@@ -59,8 +57,6 @@ public class PacketFluidStorage extends AbstractPacket {
 		case 1:
 			if (this.player != null && this.player.openContainer instanceof ContainerFluidStorage) {
 				((ContainerFluidStorage) this.player.openContainer).receiveSelectedFluid(this.currentFluid);
-			}else if (this.player != null && Integration.Mods.MEKANISMGAS.isEnabled() && this.player.openContainer instanceof ContainerGasStorage) {
-				((ContainerGasStorage) this.player.openContainer).receiveSelectedFluid(this.currentFluid);
 			}
 			break;
 		case 2:
@@ -69,9 +65,6 @@ public class PacketFluidStorage extends AbstractPacket {
 					if (this.player.openContainer instanceof ContainerFluidStorage) {
 						((ContainerFluidStorage) this.player.openContainer).forceFluidUpdate();
 						((ContainerFluidStorage) this.player.openContainer).doWork();
-					}else if (this.player.openContainer instanceof ContainerGasStorage && Integration.Mods.MEKANISMGAS.isEnabled()) {
-						((ContainerGasStorage) this.player.openContainer).forceFluidUpdate();
-						((ContainerGasStorage) this.player.openContainer).doWork();
 					}
 				}
 			}
@@ -89,9 +82,6 @@ public class PacketFluidStorage extends AbstractPacket {
 			if (gui instanceof GuiFluidStorage) {
 				ContainerFluidStorage container = (ContainerFluidStorage) ((GuiFluidStorage) gui).inventorySlots;
 				container.updateFluidList(this.fluidStackList);
-			}else if (gui instanceof GuiGasStorage  && Integration.Mods.MEKANISMGAS.isEnabled()) {
-				ContainerGasStorage container = (ContainerGasStorage) ((GuiGasStorage) gui).inventorySlots;
-				container.updateFluidList(this.fluidStackList);
 			}
 		}
 	}
@@ -102,9 +92,6 @@ public class PacketFluidStorage extends AbstractPacket {
 			Gui gui = Minecraft.getMinecraft().currentScreen;
 			if (gui instanceof GuiFluidStorage) {
 				ContainerFluidStorage container = (ContainerFluidStorage) ((GuiFluidStorage) gui).inventorySlots;
-				container.hasWirelessTermHandler = this.hasTermHandler;
-			}else if (gui instanceof GuiGasStorage && Integration.Mods.MEKANISMGAS.isEnabled()) {
-				ContainerGasStorage container = (ContainerGasStorage) ((GuiGasStorage) gui).inventorySlots;
 				container.hasWirelessTermHandler = this.hasTermHandler;
 			}
 		}

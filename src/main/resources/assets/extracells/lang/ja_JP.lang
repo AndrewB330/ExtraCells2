@@ -11,7 +11,6 @@ extracells.item.storage.physical.16384k.name=16384k MEストレージ
 extracells.item.storage.physical.container.name=ME ブロックコンテナ
 extracells.item.storage.casing.physical.name=発展ストレージセル筐体
 extracells.item.storage.casing.fluid.name=液体ストレージセル筐体
-extracells.item.storage.casing.gas.name=気体ストレージセル筐体
 extracells.item.terminal.fluid.wireless.name=ME 無線液体ターミナル
 extracells.item.terminal.universal.wireless.name=ME 発展型無線ターミナル
 extracells.item.fluid.pattern=ME 液体パターン
@@ -43,27 +42,6 @@ extracells.item.storage.component.fluid.256k.name=256k ME液体ストレージ�
 extracells.item.storage.component.fluid.1024k.name=1024k ME液体ストレージセル
 extracells.item.storage.component.fluid.4096k.name=4096k ME液体ストレージセル
 
-
-//Item-Gas
-extracells.item.storage.gas.1k.name=1k ME気体ストレージ
-extracells.item.storage.gas.4k.name=4k ME気体ストレージ
-extracells.item.storage.gas.16k.name=ME 16k ME気体ストレージ
-extracells.item.storage.gas.64k.name=ME 64k ME気体ストレージ
-extracells.item.storage.gas.256k.name=ME 256k ME気体ストレージ
-extracells.item.storage.gas.1024k.name=ME 1024k ME気体ストレージ
-extracells.item.storage.gas.4096k.name=ME 4096k ME気体ストレージ
-extracells.item.storage.gas.portable.name=ME ポータブル気体ストレージ
-
-extracells.item.storage.component.gas.1k.name=1k ME気体ストレージセル
-extracells.item.storage.component.gas.4k.name=4k ME気体ストレージセル
-extracells.item.storage.component.gas.16k.name=16k ME気体ストレージセル
-extracells.item.storage.component.gas.64k.name=64k ME気体ストレージセル
-extracells.item.storage.component.gas.256k.name=256k ME気体ストレージセル
-extracells.item.storage.component.gas.1024k.name=1024k ME気体ストレージセル
-extracells.item.storage.component.gas.4096k.name=4096k ME気体ストレージセル
-
-
-
 //Creative Tab
 itemGroup.Extra_Cells=Extra Cells 2
 
@@ -76,13 +54,10 @@ extracells.fluid.plane=ME 液体 消滅/結合 プレーン
 //Parts
 extracells.part.fluid.export.name=ME 液体搬出バス
 extracells.part.fluid.import.name=ME 液体搬入バス
-extracells.part.gas.export.name=ME 気体搬出バス
-extracells.part.gas.import.name=ME 気体搬入バス
 
 
 extracells.part.fluid.storage.name=ME 液体ストレージバス
 extracells.part.fluid.terminal.name=ME 液体ターミナル
-extracells.part.gas.terminal.name=ME 気体ターミナル
 extracells.part.fluid.plane.annihilation.name=ME 液体消滅プレート
 extracells.part.fluid.plane.formation.name=ME 液体結像プレート
 extracells.part.fluid.levelemitter.name=ME 液体レベルエミッタ
@@ -90,7 +65,6 @@ extracells.part.drive.name=ME ドライブプレート
 extracells.part.battery.name=ME エナジーセルプレート
 extracells.part.fluid.conversion.monitor.name=ME 液体変換モニター
 extracells.part.fluid.monitor.name=ME 液体ストレージモニター
-extracells.part.gas.terminal.name=ME 気体ストレージモニター
 extracells.part.oredict.export.name=ME 鉱石辞書搬出バス
 
 
@@ -107,7 +81,6 @@ tile.extracells.block.hardmedrive.name=ME 対爆ドライブ
 //Tooltips and Chat-Messages
 extracells.tooltip.amount=量
 extracells.tooltip.fluid=液体
-extracells.tooltip.gas=気体
 extracells.tooltip.storage.physical.types=%s of %s item types used.
 extracells.tooltip.storage.fluid.types=%s of %s fluid types used.
 extracells.tooltip.storage.physical.bytes=%s of %s item bytes used.

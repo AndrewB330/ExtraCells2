@@ -42,11 +42,6 @@ object IGW {
       }
     }
 
-    if(Integration.Mods.OPENCOMPUTERS.isEnabled){
-      val stack = GameRegistry.findItemStack("extracells", "oc.upgrade", 1)
-      WikiRegistry.registerBlockAndItemPageEntry(stack.getItem, stack.getUnlocalizedName.replace(".", "/"))
-    }
-
     for(block <- BlockEnum.values()){
 
       val list = new util.ArrayList[java.lang.Object]

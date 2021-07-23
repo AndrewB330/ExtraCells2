@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockWalrus extends BlockEC {
+public class BlockWalrus extends BlockBase {
 
 	public BlockWalrus() {
 		super(Material.clay, 2.0F, 10.0F);

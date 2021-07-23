@@ -7,7 +7,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import extracells.part.PartECBase;
+import extracells.part.PartBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -29,8 +29,8 @@ public abstract class AbstractPacket implements IMessage {
 		return FluidRegistry.getFluid(readString(in));
 	}
 
-	public static PartECBase readPart(ByteBuf in) {
-		return (PartECBase) ((IPartHost) readTileEntity(in))
+	public static PartBase readPart(ByteBuf in) {
+		return (PartBase) ((IPartHost) readTileEntity(in))
 				.getPart(ForgeDirection.getOrientation(in.readByte()));
 	}
 
@@ -69,7 +69,7 @@ public abstract class AbstractPacket implements IMessage {
 		writeString(fluid.getName(), out);
 	}
 
-	public static void writePart(PartECBase part, ByteBuf out) {
+	public static void writePart(PartBase part, ByteBuf out) {
 		writeTileEntity(part.getHost().getTile(), out);
 		out.writeByte(part.getSide().ordinal());
 	}

@@ -44,7 +44,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileEntityFluidFiller extends TileBase implements IActionHost,
+public class TileEntityFluidFiller extends TileEntityBase implements IActionHost,
 		ICraftingProvider, IECTileEntity,
 		IMEMonitorHandlerReceiver<IAEFluidStack>, IListenerTile {
 

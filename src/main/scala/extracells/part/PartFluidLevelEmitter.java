@@ -40,9 +40,7 @@ import net.minecraftforge.fluids.FluidStack;
 import java.io.IOException;
 import java.util.Random;
 
-public class PartFluidLevelEmitter extends PartECBase implements
-		IStackWatcherHost, IFluidSlotPartOrBlock {
-
+public class PartFluidLevelEmitter extends PartBase implements IStackWatcherHost, IFluidSlotPartOrBlock {
 	private Fluid fluid;
 	private RedstoneMode mode = RedstoneMode.HIGH_SIGNAL;
 	private IStackWatcher watcher;

@@ -48,7 +48,7 @@ import org.lwjgl.opengl.GL12;
 import java.io.IOException;
 import java.util.List;
 
-public class PartFluidStorageMonitor extends PartECBase implements IStackWatcherHost {
+public class PartFluidStorageMonitor extends PartBase implements IStackWatcherHost {
 
 	Fluid fluid = null;
 	long amount = 0L;
@@ -103,8 +103,8 @@ public class PartFluidStorageMonitor extends PartECBase implements IStackWatcher
 	}
 
 	@Override
-	public List<String> getWailaBodey(NBTTagCompound data, List<String> list) {
-		super.getWailaBodey(data, list);
+	public List<String> getWailaBody(NBTTagCompound data, List<String> list) {
+		super.getWailaBody(data, list);
 		long amount = 0L;
 		Fluid fluid = null;
 		if (data.hasKey("locked") && data.getBoolean("locked"))

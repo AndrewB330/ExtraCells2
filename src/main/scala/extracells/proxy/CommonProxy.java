@@ -8,9 +8,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import extracells.registries.BlockEnum;
 import extracells.registries.ItemEnum;
 import extracells.tileentity.*;
-import extracells.util.FuelBurnTime;
-import extracells.util.recipe.RecipeUniversalTerminal;
-import net.minecraftforge.fluids.FluidRegistry;
 
 import java.io.*;
 
@@ -43,7 +40,6 @@ public class CommonProxy {
 			recipeHandler.parseRecipes(new InternalRecipeLoader(), "main.recipe");
 		}
 		recipeHandler.injectRecipes();
-		GameRegistry.addRecipe(RecipeUniversalTerminal.THIS());
 	}
 
 	public void registerBlocks() {
@@ -62,11 +58,8 @@ public class CommonProxy {
 		IAppEngApi api = AEApi.instance();
 		api.registries().movable().whiteListTileEntity(TileEntityCertusTank.class);
 		api.registries().movable().whiteListTileEntity(TileEntityWalrus.class);
-		api.registries().movable().whiteListTileEntity(TileEntityFluidCrafter.class);
 		api.registries().movable().whiteListTileEntity(TileEntityFluidInterface.class);
 		api.registries().movable().whiteListTileEntity(TileEntityFluidFiller.class);
-		api.registries().movable().whiteListTileEntity(TileEntityHardMeDrive.class);
-		api.registries().movable().whiteListTileEntity(TileEntityVibrationChamberFluid.class);
 	}
 
 	public void registerRenderers() {
@@ -76,15 +69,8 @@ public class CommonProxy {
 	public void registerTileEntities() {
 		GameRegistry.registerTileEntity(TileEntityCertusTank.class, "tileEntityCertusTank");
 		GameRegistry.registerTileEntity(TileEntityWalrus.class, "tileEntityWalrus");
-		GameRegistry.registerTileEntity(TileEntityFluidCrafter.class, "tileEntityFluidCrafter");
 		GameRegistry.registerTileEntity(TileEntityFluidInterface.class, "tileEntityFluidInterface");
 		GameRegistry.registerTileEntity(TileEntityFluidFiller.class, "tileEntityFluidFiller");
-		GameRegistry.registerTileEntity(TileEntityHardMeDrive.class, "tileEntityHardMEDrive");
-		GameRegistry.registerTileEntity(TileEntityVibrationChamberFluid.class, "tileEntityVibrationChamberFluid");
-	}
-
-	public void registerFluidBurnTimes() {
-		FuelBurnTime.registerFuel(FluidRegistry.LAVA, 800);
 	}
 
 	public boolean isClient(){

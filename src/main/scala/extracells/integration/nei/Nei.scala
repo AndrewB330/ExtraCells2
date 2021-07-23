@@ -40,12 +40,6 @@ object Nei {
 
   def init = {
     hideItems
-    if(Extracells.proxy.isClient){
-      val handler = new UniversalTerminalRecipe
-      API.registerUsageHandler(handler)
-      API.registerRecipeHandler(handler)
-    }
-
   }
 
 }

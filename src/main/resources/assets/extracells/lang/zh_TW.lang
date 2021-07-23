@@ -48,7 +48,6 @@ extracells.part.fluid.plane.annihilation.name=ME流體破壞面板
 extracells.part.fluid.plane.formation.name=ME流體成型面板
 extracells.part.fluid.levelemitter.name=ME流體發信器
 extracells.part.drive.name=ME驅動固定器
-extracells.part.battery.name=ME能量元件固定器
 extracells.part.fluid.conversion.monitor.name=ME流體交換顯示器
 extracells.part.fluid.monitor.name=ME流體儲存顯示器
 extracells.part.oredict.export.name=ME礦物表輸出匯流排

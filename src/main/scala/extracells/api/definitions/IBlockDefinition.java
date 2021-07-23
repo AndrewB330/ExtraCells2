@@ -8,9 +8,7 @@ public interface IBlockDefinition {
 
 	ITileDefinition certusTank();
 
-	ITileDefinition fluidCrafter();
-
-	ITileDefinition fluidFiller();
+	/*ITileDefinition fluidFiller(); TODO: implement!*/
 
 	ITileDefinition walrus();
 }

@@ -59,8 +59,6 @@ public interface IItemDefinition {
 
 	appeng.api.definitions.IItemDefinition physCell16384k();
 
-	appeng.api.definitions.IItemDefinition physCellContainer();
-
 	// MISC
 	appeng.api.definitions.IItemDefinition wirelessFluidTerminal();
 }
