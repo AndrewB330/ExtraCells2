@@ -29,7 +29,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
-public class ECBaseBlock extends BlockEC {
+public class ECBaseBlock extends BlockBase {
 
 	private IIcon[] icons = new IIcon[2];
 

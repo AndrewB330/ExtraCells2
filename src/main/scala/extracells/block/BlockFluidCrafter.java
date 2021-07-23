@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockFluidCrafter extends BlockEC {
+public class BlockFluidCrafter extends BlockBase {
 
 	IIcon icon;
 

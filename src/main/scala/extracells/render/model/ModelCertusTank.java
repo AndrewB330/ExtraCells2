@@ -42,9 +42,8 @@ public class ModelCertusTank extends ModelBase {
 		Tessellator tessellator = Tessellator.instance;
 		if (tileEntity != null
 				&& ((TileEntityCertusTank) tileEntity).getTankInfo(ForgeDirection.UNKNOWN)[0].fluid != null) {
-			Fluid storedFluid = ((TileEntityCertusTank) tileEntity)
-					.getRenderFluid();
-			float scale = ((TileEntityCertusTank) tileEntity).getRenderScale();
+			Fluid storedFluid = ((TileEntityCertusTank) tileEntity).getFluid();
+			float scale = ((TileEntityCertusTank) tileEntity).getFilledFraction();
 			if (storedFluid != null && scale > 0) {
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
