@@ -1,26 +1,21 @@
 package extracells.util.inventory;
 
 import appeng.api.AEApi;
+import appeng.api.config.Upgrades;
 import appeng.api.definitions.IMaterials;
+import appeng.api.implementations.items.IUpgradeModule;
+import extracells.registries.UpgradesNumber;
 import net.minecraft.item.ItemStack;
 
 public class InventoryUpgrades extends InventoryBase {
 
-    public final static int UPGRADE_SPEED =    0b00000001;
-    public final static int UPGRADE_CAPACITY = 0b00000010;
-    public final static int UPGRADE_REDSTONE = 0b00000100;
-    public final static int UPGRADE_INVERTED = 0b00001000;
-    public final static int UPGRADE_CRAFTING = 0b00010000;
+    private final UpgradesNumber upgradesMaxLimit;
+    private UpgradesNumber upgradesInstalled;
 
-    public final static int UPGRADES_NONE = 0;
-
-    public final static int UPGRADES_IO = UPGRADE_SPEED | UPGRADE_CAPACITY | UPGRADE_REDSTONE;
-
-    private final int allowedUpgrades;
-
-    public InventoryUpgrades(int _size, int allowedUpgrades) {
+    public InventoryUpgrades(int _size, UpgradesNumber upgradesMaxLimit) {
         super("upgrades", _size, 1);
-        this.allowedUpgrades = allowedUpgrades;
+        this.upgradesMaxLimit = upgradesMaxLimit;
+        this.upgradesInstalled = new UpgradesNumber();
     }
 
     @Override
@@ -28,16 +23,81 @@ public class InventoryUpgrades extends InventoryBase {
         if (itemStack == null)
             return false;
         IMaterials materials = AEApi.instance().definitions().materials();
-        if (materials.cardSpeed().isSameAs(itemStack) && (allowedUpgrades & UPGRADE_SPEED) > 0)
+        if (materials.cardSpeed().isSameAs(itemStack) &&
+                (upgradesMaxLimit.speedUpgrades - upgradesInstalled.speedUpgrades) > 0)
             return true;
-        if (materials.cardCapacity().isSameAs(itemStack) && (allowedUpgrades & UPGRADE_CAPACITY) > 0)
+        if (materials.cardCapacity().isSameAs(itemStack) &&
+                (upgradesMaxLimit.capacityUpgrades - upgradesInstalled.capacityUpgrades) > 0)
             return true;
-        if (materials.cardRedstone().isSameAs(itemStack) && (allowedUpgrades & UPGRADE_REDSTONE) > 0)
+        if (materials.cardRedstone().isSameAs(itemStack) &&
+                (upgradesMaxLimit.redstoneUpgrades - upgradesInstalled.redstoneUpgrades) > 0)
             return true;
-        if (materials.cardInverter().isSameAs(itemStack) && (allowedUpgrades & UPGRADE_INVERTED) > 0)
+        if (materials.cardInverter().isSameAs(itemStack) &&
+                (upgradesMaxLimit.invertedUpgrades - upgradesInstalled.invertedUpgrades) > 0)
             return true;
-        if (materials.cardCrafting().isSameAs(itemStack) && (allowedUpgrades & UPGRADE_CRAFTING) > 0)
+        if (materials.cardCrafting().isSameAs(itemStack) &&
+                (upgradesMaxLimit.craftingUpgrades - upgradesInstalled.craftingUpgrades) > 0)
+            return true;
+        if (materials.cardFuzzy().isSameAs(itemStack) &&
+                (upgradesMaxLimit.fuzzyUpgrades - upgradesInstalled.fuzzyUpgrades) > 0)
             return true;
         return false;
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        updateUpgradesInstalled();
+    }
+
+    private void updateUpgradesInstalled() {
+        upgradesInstalled = new UpgradesNumber();
+
+        for (final ItemStack stack : getContent()) {
+            if (stack == null || stack.getItem() == null || !(stack.getItem() instanceof IUpgradeModule)) {
+                continue;
+            }
+
+            final Upgrades myUpgrade = ((IUpgradeModule) stack.getItem()).getType(stack);
+            switch (myUpgrade) {
+                case CAPACITY:
+                    upgradesInstalled.capacityUpgrades++;
+                    break;
+                case FUZZY:
+                    upgradesInstalled.fuzzyUpgrades++;
+                    break;
+                case REDSTONE:
+                    upgradesInstalled.redstoneUpgrades++;
+                    break;
+                case SPEED:
+                    upgradesInstalled.speedUpgrades++;
+                    break;
+                case INVERTER:
+                    upgradesInstalled.invertedUpgrades++;
+                    break;
+                case CRAFTING:
+                    upgradesInstalled.craftingUpgrades++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        upgradesInstalled.speedUpgrades = Math.min(upgradesInstalled.speedUpgrades,
+                upgradesMaxLimit.speedUpgrades);
+        upgradesInstalled.capacityUpgrades = Math.min(upgradesInstalled.capacityUpgrades,
+                upgradesMaxLimit.capacityUpgrades);
+        upgradesInstalled.redstoneUpgrades = Math.min(upgradesInstalled.redstoneUpgrades,
+                upgradesMaxLimit.redstoneUpgrades);
+        upgradesInstalled.invertedUpgrades = Math.min(upgradesInstalled.invertedUpgrades,
+                upgradesMaxLimit.invertedUpgrades);
+        upgradesInstalled.craftingUpgrades = Math.min(upgradesInstalled.craftingUpgrades,
+                upgradesMaxLimit.craftingUpgrades);
+        upgradesInstalled.fuzzyUpgrades = Math.min(upgradesInstalled.fuzzyUpgrades,
+                upgradesMaxLimit.fuzzyUpgrades);
+    }
+
+    public UpgradesNumber getUpgradesInstalled() {
+        return upgradesInstalled;
     }
 }

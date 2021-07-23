@@ -37,8 +37,7 @@ public class GuiBusFluidIO extends ECGuiContainer implements
     public GuiBusFluidIO(PartFluidIO _terminal, EntityPlayer _player) {
         super(new ContainerBusFluidIO(_terminal, _player));
 
-        ((ContainerBusFluidIO) inventorySlots)
-                .setTransferItemInSlotCallback((ItemStack stack) -> this.shiftClick(stack));
+        ((ContainerBusFluidIO) inventorySlots).setTransferItemInSlotCallback(this::shiftClick);
 
         this.part = _terminal;
         this.player = _player;
@@ -149,7 +148,7 @@ public class GuiBusFluidIO extends ECGuiContainer implements
     }
 
     private void renderBackground(Slot slot) {
-        if (slot.getStack() == null && (slot.slotNumber < 4 || slot.slotNumber > 39)) {
+        if (slot.getStack() == null && slot.slotNumber >= 36) {
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
@@ -157,7 +156,6 @@ public class GuiBusFluidIO extends ECGuiContainer implements
             this.drawTexturedModalRect(this.guiLeft + slot.xDisplayPosition, this.guiTop + slot.yDisplayPosition, 240, 208, 16, 16);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glEnable(GL11.GL_LIGHTING);
-
         }
     }
 

@@ -15,17 +15,15 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBusFluidStorage extends Container {
+public class ContainerBusFluidStorage extends ECBaseContainer {
 
 	private GuiBusFluidStorage guiBusFluidStorage;
 
 	public PartFluidStorage part;
 
 	public ContainerBusFluidStorage(PartFluidStorage part, EntityPlayer player) {
-
-		addSlotToContainer(new SlotUpgrades(part.getInventory(), 0, 187, 8));
+		super(player.inventory, part.getInventory(), 8, 140);
 		this.part = part;
-		bindPlayerInventory(player.inventory);
 
 		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 			ItemStack stack = player.inventory.getStackInSlot(i);
@@ -43,16 +41,9 @@ public class ContainerBusFluidStorage extends Container {
 		}
 	}
 
-	protected void bindPlayerInventory(IInventory inventoryPlayer) {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, i * 18 + 140));
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 198));
-		}
+	@Override
+	protected void addSlots(IInventory inventoryPlayer) {
+		addSlotToContainer(new SlotUpgrades(inventory, 0, 187, 8));
 	}
 
 	@Override

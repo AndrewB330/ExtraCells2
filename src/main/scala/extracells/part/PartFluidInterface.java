@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PartFluidInterface extends PartECBase implements IFluidHandler,
+public class PartFluidInterface extends PartBase implements IFluidHandler,
 		IFluidInterface, IFluidSlotPartOrBlock, ITileStorageMonitorable,
 		IStorageMonitorable, IGridTickable, ICraftingProvider {
 
@@ -425,7 +425,7 @@ public class PartFluidInterface extends PartECBase implements IFluidHandler,
 	}
 
 	@Override
-	public List<String> getWailaBodey(NBTTagCompound tag, List<String> list) {
+	public List<String> getWailaBody(NBTTagCompound tag, List<String> list) {
 		FluidStack fluid = null;
 		int id = -1;
 		int amount = 0;

@@ -5,8 +5,6 @@ public interface IPartDefinition {
 
 	appeng.api.definitions.IItemDefinition partConversionMonitor();
 
-	appeng.api.definitions.IItemDefinition partDrive();
-
 	appeng.api.definitions.IItemDefinition partFluidAnnihilationPlane();
 
 	appeng.api.definitions.IItemDefinition partFluidExportBus();

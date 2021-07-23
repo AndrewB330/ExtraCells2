@@ -17,6 +17,7 @@ import extracells.gui.GuiBusFluidIO;
 import extracells.network.packet.other.IFluidSlotPartOrBlock;
 import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.PacketBusFluidIO;
+import extracells.registries.UpgradesNumber;
 import extracells.util.inventory.InventoryUpgrades;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -33,37 +34,40 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class PartFluidIO extends PartWithInventory implements IGridTickable, IFluidSlotPartOrBlock {
+public abstract class PartFluidIO extends PartWithUpgradesInventory implements IGridTickable, IFluidSlotPartOrBlock {
 
-    public Fluid[] filterFluids = new Fluid[9];
+    public final Fluid[] filterFluids = new Fluid[9]; // todo: make private
     private RedstoneMode redstoneMode = RedstoneMode.IGNORE;
+
     protected byte filterSize;
     protected byte speedState;
     protected boolean redstoneControlled;
 
-    public PartFluidIO() {
-        super(new InventoryUpgrades(4, InventoryUpgrades.UPGRADES_IO), "upgradeInventory");
+    public PartFluidIO(UpgradesNumber upgradesMaxLimit) {
+        super(4, upgradesMaxLimit);
     }
 
     // TODO: check this
     @Override
     public ItemStack getItemStack(PartItemStack type) {
         ItemStack stack = super.getItemStack(type);
-        if (type.equals(PartItemStack.Wrench))
-            stack.getTagCompound().removeTag("upgradeInventory");
+        stack.getTagCompound().removeTag("upgradeInventory");
         return stack;
     }
 
 
     @Override
     public int cableConnectionRenderTo() {
+        // TODO: check this
         return 5;
     }
 
     private boolean canDoWork() {
         boolean redstonePowered = isRedstonePowered();
+
         if (!this.redstoneControlled)
             return true;
+
         switch (getRedstoneMode()) {
             case IGNORE:
                 return true;
@@ -72,6 +76,7 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
             case HIGH_SIGNAL:
                 return redstonePowered;
             case SIGNAL_PULSE:
+                // TODO: implement pulse
                 return false;
         }
         return false;
@@ -92,6 +97,11 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
     }
 
     @Override
+    public Object getServerGuiElement(EntityPlayer player) {
+        return new ContainerBusFluidIO(this, player);
+    }
+
+    @Override
     public int getLightLevel() {
         return 0;
     }
@@ -101,17 +111,12 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
     }
 
     @Override
-    public Object getServerGuiElement(EntityPlayer player) {
-        return new ContainerBusFluidIO(this, player);
-    }
-
-    @Override
     public final TickingRequest getTickingRequest(IGridNode node) {
         return new TickingRequest(1, 20, false, false);
     }
 
     @Override
-    public List<String> getWailaBodey(NBTTagCompound tag, List<String> oldList) {
+    public List<String> getWailaBody(NBTTagCompound tag, List<String> oldList) {
         if (tag.hasKey("speed"))
             oldList.add(tag.getInteger("speed") + "mB/t");
         else
@@ -137,47 +142,30 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
     @Override
     public boolean onActivate(EntityPlayer player, Vec3 pos) {
         boolean activate = super.onActivate(player, pos);
-        onInventoryChanged();
+        onInventoryChanged(); // TODO: why do we need this?
         return activate;
     }
 
     @Override
     public void onInventoryChanged() {
-        this.filterSize = 0;
-        this.redstoneControlled = false;
-        this.speedState = 0;
-        for (int i = 0; i < this.getInventory().getSizeInventory(); i++) {
-            ItemStack currentStack = this.getInventory().getStackInSlot(i);
-            if (currentStack != null) {
-                if (AEApi.instance().definitions().materials().cardCapacity().isSameAs(currentStack))
-                    this.filterSize++;
-                if (AEApi.instance().definitions().materials().cardRedstone().isSameAs(currentStack))
-                    this.redstoneControlled = true;
-                if (AEApi.instance().definitions().materials().cardSpeed().isSameAs(currentStack))
-                    this.speedState++;
-            }
-        }
+
+        UpgradesNumber upgradesInstalled = getUpgradesInstalled();
+        this.filterSize = (byte) upgradesInstalled.capacityUpgrades;
+        this.speedState = (byte) upgradesInstalled.speedUpgrades;
+        this.redstoneControlled = upgradesInstalled.redstoneUpgrades > 0;
 
         try {
-            if (getHost().getLocation().getWorld().isRemote)
+            if (getHost().getLocation().getWorld().isRemote) {
                 return;
+            }
         } catch (Throwable ignored) {
         }
+
+        // Send gui updates
         new PacketBusFluidIO(this.filterSize).sendPacketToAllPlayers();
         new PacketBusFluidIO(this.redstoneControlled).sendPacketToAllPlayers();
-        saveData();
-    }
 
-    @Override
-    public final void readFromNBT(NBTTagCompound data) {
-        super.readFromNBT(data);
-        this.redstoneMode = RedstoneMode.values()[data
-                .getInteger("redstoneMode")];
-        for (int i = 0; i < 9; i++) {
-            this.filterFluids[i] = FluidRegistry.getFluid(data
-                    .getString("FilterFluid#" + i));
-        }
-        onInventoryChanged();
+        saveData();
     }
 
     @Override
@@ -187,23 +175,19 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
 
     @SideOnly(Side.CLIENT)
     @Override
-    public final void renderDynamic(double x, double y, double z,
-                                    IPartRenderHelper rh, RenderBlocks renderer) {
+    public final void renderDynamic(double x, double y, double z, IPartRenderHelper rh, RenderBlocks renderer) {
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public abstract void renderInventory(IPartRenderHelper rh,
-                                         RenderBlocks renderer);
+    public abstract void renderInventory(IPartRenderHelper rh, RenderBlocks renderer);
 
     @SideOnly(Side.CLIENT)
     @Override
-    public abstract void renderStatic(int x, int y, int z,
-                                      IPartRenderHelper rh, RenderBlocks renderer);
+    public abstract void renderStatic(int x, int y, int z, IPartRenderHelper rh, RenderBlocks renderer);
 
     public void sendInformation(EntityPlayer player) {
-        new PacketFluidSlot(Arrays.asList(this.filterFluids))
-                .sendPacketToPlayer(player);
+        new PacketFluidSlot(Arrays.asList(this.filterFluids)).sendPacketToPlayer(player);
         new PacketBusFluidIO(this.redstoneMode).sendPacketToPlayer(player);
         new PacketBusFluidIO(this.filterSize).sendPacketToPlayer(player);
     }
@@ -211,25 +195,32 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
     @Override
     public final void setFluid(int index, Fluid fluid, EntityPlayer player) {
         this.filterFluids[index] = fluid;
-        new PacketFluidSlot(Arrays.asList(this.filterFluids))
-                .sendPacketToPlayer(player);
+        new PacketFluidSlot(Arrays.asList(this.filterFluids)).sendPacketToPlayer(player);
         saveData();
     }
 
     @Override
-    public void setPartHostInfo(ForgeDirection _side, IPartHost _host,
-                                TileEntity _tile) {
+    public void setPartHostInfo(ForgeDirection _side, IPartHost _host, TileEntity _tile) {
         super.setPartHostInfo(_side, _host, _tile);
         onInventoryChanged();
     }
 
     @Override
-    public final TickRateModulation tickingRequest(IGridNode node,
-                                                   int TicksSinceLastCall) {
-        if (canDoWork())
-            return doWork(125 + this.speedState * 125, TicksSinceLastCall) ? TickRateModulation.FASTER
-                    : TickRateModulation.SLOWER;
-        return TickRateModulation.SLOWER;
+    public final TickRateModulation tickingRequest(IGridNode node, int TicksSinceLastCall) {
+        if (!canDoWork())
+            return TickRateModulation.SLOWER;
+        return doWork((1 + this.speedState) * 125, TicksSinceLastCall) ?
+                TickRateModulation.FASTER : TickRateModulation.SLOWER;
+    }
+
+    @Override
+    public final void readFromNBT(NBTTagCompound data) {
+        super.readFromNBT(data);
+        this.redstoneMode = RedstoneMode.values()[data.getInteger("redstoneMode")];
+        for (int i = 0; i < 9; i++) {
+            this.filterFluids[i] = FluidRegistry.getFluid(data.getString("FilterFluid#" + i));
+        }
+        onInventoryChanged();
     }
 
     @Override
@@ -238,10 +229,7 @@ public abstract class PartFluidIO extends PartWithInventory implements IGridTick
         data.setInteger("redstoneMode", this.redstoneMode.ordinal());
         for (int i = 0; i < this.filterFluids.length; i++) {
             Fluid fluid = this.filterFluids[i];
-            if (fluid != null)
-                data.setString("FilterFluid#" + i, fluid.getName());
-            else
-                data.setString("FilterFluid#" + i, "");
+            data.setString("FilterFluid#" + i, fluid != null ? fluid.getName() : "");
         }
     }
 

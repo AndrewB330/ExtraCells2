@@ -7,21 +7,20 @@ import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
-import extracells.part.PartECBase;
+import extracells.part.PartBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.EnumSet;
 
-public class ECBaseGridBlock implements IGridBlock {
-
+public class GridBlockBase implements IGridBlock {
+	protected final PartBase host;
 	protected AEColor color;
 	protected IGrid grid;
 	protected int usedChannels;
-	protected PartECBase host;
 
-	public ECBaseGridBlock(PartECBase _host) {
-		this.host = _host;
+	public GridBlockBase(PartBase host) {
+		this.host = host;
 	}
 
 	@Override
@@ -34,6 +33,7 @@ public class ECBaseGridBlock implements IGridBlock {
 		return EnumSet.of(GridFlags.REQUIRE_CHANNEL);
 	}
 
+	// TODO: check this
 	public IMEMonitor<IAEFluidStack> getFluidMonitor() {
 		IGridNode node = this.host.getGridNode();
 		if (node == null)
@@ -45,7 +45,6 @@ public class ECBaseGridBlock implements IGridBlock {
 		if (storageGrid == null)
 			return null;
 		return storageGrid.getFluidInventory();
-
 	}
 
 	@Override

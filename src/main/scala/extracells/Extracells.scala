@@ -54,7 +54,6 @@ object Extracells {
 		proxy.registerMovables
 		proxy.registerRenderers
 		proxy.registerTileEntities
-		proxy.registerFluidBurnTimes
 		proxy.addRecipes(configFolder)
 		ChannelHandler.registerMessages
 		RenderingRegistry.registerBlockHandler(new RenderHandler(RenderingRegistry.getNextAvailableRenderId))
@@ -72,8 +71,6 @@ object Extracells {
 		configFolder = event.getModConfigurationDirectory
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, GuiHandler)
-
-
 
 		// Config
 		val config = new Configuration(new File(configFolder.getPath + File.separator + "AppliedEnergistics2" + File.separator + "extracells.cfg"))

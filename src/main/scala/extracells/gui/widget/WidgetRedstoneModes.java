@@ -41,8 +41,7 @@ public class WidgetRedstoneModes extends GuiButton {
 		mouseDragged(minecraftInstance, x, y);
 
 		minecraftInstance.getTextureManager().bindTexture(
-				new ResourceLocation("extracells",
-						"textures/gui/redstonemodes.png"));
+				new ResourceLocation("extracells", "textures/gui/redstonemodes.png"));
 		drawTexturedModalRect(this.xPosition, this.yPosition, 0, 16, 16, 16);
 
 		switch (this.redstoneMode) {

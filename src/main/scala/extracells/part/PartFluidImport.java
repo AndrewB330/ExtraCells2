@@ -11,6 +11,8 @@ import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.util.AEColor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import extracells.registries.PartEnum;
+import extracells.registries.UpgradesNumber;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -28,6 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PartFluidImport extends PartFluidIO implements IFluidHandler {
+
+	public PartFluidImport() {
+		super(PartEnum.FLUID_IMPORT.getUpgradesMaxLimit());
+	}
 
 	@Override
 	public int cableConnectionRenderTo() {

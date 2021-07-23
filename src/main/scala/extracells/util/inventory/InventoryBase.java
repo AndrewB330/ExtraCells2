@@ -109,6 +109,7 @@ public class InventoryBase implements IInventory {
             return;
         int stackLimit = Math.min(getInventoryStackLimit(), stack.getMaxStackSize());
         stack.stackSize = Math.min(stackLimit, stack.stackSize + amount);
+        markDirty();
     }
 
     @Override

@@ -5,7 +5,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import extracells.registries.BlockEnum;
 import extracells.registries.ItemEnum;
 import extracells.render.TextureManager;
-import extracells.render.block.RendererHardMEDrive;
 import extracells.render.item.ItemRendererCertusTank;
 import extracells.render.item.ItemRendererFluid;
 import extracells.render.item.ItemRendererFluidPattern;
@@ -37,8 +36,6 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForgeClient.registerItemRenderer(ItemEnum.FLUIDITEM.getItem(), new ItemRendererFluid());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWalrus.class, new TileEntityRendererWalrus());
-
-		RendererHardMEDrive.registerRenderer();
 	}
 
 	@SubscribeEvent

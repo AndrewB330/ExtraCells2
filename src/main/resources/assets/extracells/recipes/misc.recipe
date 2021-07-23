@@ -7,10 +7,6 @@ shaped=
 	ae2:BlockQuartzGlass ae2:BlockQuartzGlass ae2:BlockQuartzGlass
 	-> ec:certusTank
 
-shapeless=
-	ae2:BlockMolecularAssembler ec:cell1kPartFluid
-	-> ec:fluidCrafter
-
 shaped=
 	ae2:BlockQuartzGlass mc:bucket ae2:BlockQuartzGlass
 	-> ec:fluidPattern
@@ -36,13 +32,3 @@ shaped=
 	ec:partFluidTerminal,
 	ae2:BlockDenseEnergyCell
 	-> ec:wirelessFluidTerminal
-
-shapeless=
-    ec:fluidCrafter ec:partFluidTerminal
-    -> ec:fluidFiller
-
-shaped=
-	mc:obsidian densecable mc:obsidian,
-	mc:obsidian ae2:BlockDrive mc:obsidian,
-	mc:obsidian mc:obsidian mc:obsidian,
-	-> ec:hardMEDrive

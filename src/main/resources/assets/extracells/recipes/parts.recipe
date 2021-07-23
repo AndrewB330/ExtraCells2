@@ -54,10 +54,6 @@ shapeless=
 	-> ec:partFluidTerminal
 
 shapeless=
-	ae2:BlockDrive mc:iron_ingot mc:iron_ingot
-	-> ec:partDrive
-
-shapeless=
 	interface mc:sticky_piston mc:piston lapis lapis
 	-> ec:partFluidStorageBus
 

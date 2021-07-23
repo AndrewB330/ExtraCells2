@@ -5,7 +5,6 @@ import extracells.container.ContainerFluidEmitter;
 import extracells.gui.widget.DigitTextField;
 import extracells.gui.widget.WidgetRedstoneModes;
 import extracells.gui.widget.fluid.WidgetFluidSlot;
-import extracells.integration.Integration;
 import extracells.network.packet.other.IFluidSlotGui;
 import extracells.network.packet.part.PacketFluidEmitter;
 import extracells.part.PartFluidLevelEmitter;
@@ -77,7 +76,7 @@ public class GuiFluidEmitter extends ECGuiContainer implements IFluidSlotGui {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		this.fontRendererObj.drawString(PartEnum.FLUIDLEVELEMITTER.getStatName(), 5, 5, 0x000000);
+		this.fontRendererObj.drawString(PartEnum.FLUID_LEVEL_EMITTER.getStatName(), 5, 5, 0x000000);
 		this.fluidSlot.drawWidget();
 		((WidgetRedstoneModes) this.buttonList.get(6)).drawTooltip(mouseX, mouseY, (this.width - xSize) / 2, (this.height - ySize) / 2);
 		GuiUtil.renderOverlay(this.zLevel, this.guiLeft, this.guiTop, this.fluidSlot, mouseX, mouseY);

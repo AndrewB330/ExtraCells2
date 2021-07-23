@@ -1,7 +1,7 @@
 package extracells.network.packet.other;
 
 import extracells.network.AbstractPacket;
-import extracells.part.PartECBase;
+import extracells.part.PartBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -76,9 +76,9 @@ public class PacketFluidSlot extends AbstractPacket {
 	public void writeData(ByteBuf out) {
 		switch (this.mode) {
 		case 0:
-			if (this.partOrBlock instanceof PartECBase) {
+			if (this.partOrBlock instanceof PartBase) {
 				out.writeBoolean(true);
-				writePart((PartECBase) this.partOrBlock, out);
+				writePart((PartBase) this.partOrBlock, out);
 			} else {
 				out.writeBoolean(false);
 				writeTileEntity((TileEntity) this.partOrBlock, out);

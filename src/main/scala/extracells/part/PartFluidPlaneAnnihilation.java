@@ -15,7 +15,7 @@ import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.util.AEColor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import extracells.gridblock.ECBaseGridBlock;
+import extracells.gridblock.GridBlockBase;
 import extracells.render.TextureManager;
 import extracells.util.FluidUtil;
 import extracells.util.PermissionUtil;
@@ -33,7 +33,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
 
-public class PartFluidPlaneAnnihilation extends PartECBase {
+public class PartFluidPlaneAnnihilation extends PartBase {
 
 	@Override
 	public int cableConnectionRenderTo() {
@@ -75,7 +75,7 @@ public class PartFluidPlaneAnnihilation extends PartECBase {
 	@Override
 	public void onNeighborChanged() {
 		TileEntity hostTile = getHostTile();
-		ECBaseGridBlock gridBlock = getGridBlock();
+		GridBlockBase gridBlock = getGridBlock();
 		if (hostTile == null || gridBlock == null)
 			return;
 		IMEMonitor<IAEFluidStack> monitor = gridBlock.getFluidMonitor();

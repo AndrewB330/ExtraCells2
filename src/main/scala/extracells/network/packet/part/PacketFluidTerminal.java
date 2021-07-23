@@ -87,7 +87,7 @@ public class PacketFluidTerminal extends AbstractPacket {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public void case2(){
+	public void case2() {
 		if (this.player != null && Minecraft.getMinecraft().currentScreen instanceof GuiFluidTerminal) {
 			GuiFluidTerminal gui = (GuiFluidTerminal) Minecraft.getMinecraft().currentScreen;
 			((ContainerFluidTerminal) gui.getContainer()).receiveSelectedFluid(this.currentFluid);

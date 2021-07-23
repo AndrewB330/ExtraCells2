@@ -6,7 +6,6 @@ import cpw.mods.fml.relauncher.Side;
 import extracells.Extracells;
 import extracells.integration.igw.IGW;
 import extracells.integration.nei.Nei;
-import extracells.integration.opencomputers.OpenComputers;
 import extracells.integration.waila.Waila;
 import net.minecraftforge.common.config.Configuration;
 
@@ -14,12 +13,9 @@ public class Integration {
 
     public enum Mods {
         WAILA("Waila"),
-        OPENCOMPUTERS("OpenComputers"),
         BCFUEL("BuildCraftAPI|fuels", "BuildCraftFuel"),
         NEI("NotEnoughItems", Side.CLIENT),
-        IGW("IGWMod", "IngameWikiMod", Side.CLIENT),
-        THAUMATICENERGISTICS("thaumicenergistics", "Thaumatic Energistics"),
-        WIRELESSCRAFTING("ae2wct", "AE2 Wireless Crafting Terminal");
+        IGW("IGWMod", "IngameWikiMod", Side.CLIENT);
 
         private final String modID;
 
@@ -94,8 +90,6 @@ public class Integration {
     public void init() {
         if (Mods.WAILA.isEnabled())
             Waila.init();
-        if (Mods.OPENCOMPUTERS.isEnabled())
-            OpenComputers.init();
         if (Mods.NEI.isEnabled())
             Nei.init();
         if (Mods.IGW.isEnabled())

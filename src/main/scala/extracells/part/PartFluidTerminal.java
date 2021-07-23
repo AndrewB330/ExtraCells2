@@ -14,7 +14,7 @@ import appeng.api.util.AEColor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import extracells.container.ContainerFluidTerminal;
-import extracells.gridblock.ECBaseGridBlock;
+import extracells.gridblock.GridBlockBase;
 import extracells.gui.GuiFluidTerminal;
 import extracells.network.packet.part.PacketFluidTerminal;
 import extracells.render.TextureManager;
@@ -82,7 +82,7 @@ public class PartFluidTerminal extends PartWithInventory implements IGridTickabl
         container = container.copy();
         container.stackSize = 1;
 
-        ECBaseGridBlock gridBlock = getGridBlock();
+        GridBlockBase gridBlock = getGridBlock();
         if (gridBlock == null)
             return;
         IMEMonitor<IAEFluidStack> monitor = gridBlock.getFluidMonitor();

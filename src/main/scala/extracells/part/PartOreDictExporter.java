@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class PartOreDictExporter extends PartECBase implements IGridTickable {
+public class PartOreDictExporter extends PartBase implements IGridTickable {
 
 	private String filter = "";
 	private IFilterNode filterRoot = new FilterNodeSimple("");
@@ -362,8 +362,8 @@ public class PartOreDictExporter extends PartECBase implements IGridTickable {
 	}
 
 	@Override
-	public List<String> getWailaBodey(NBTTagCompound data, List<String> list) {
-		super.getWailaBodey(data, list);
+	public List<String> getWailaBody(NBTTagCompound data, List<String> list) {
+		super.getWailaBody(data, list);
 		if (data.hasKey("name"))
 			list.add(StatCollector
 					.translateToLocal("extracells.tooltip.oredict")

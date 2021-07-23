@@ -16,11 +16,9 @@ public enum ItemEnum {
 	FLUIDWIRELESSTERMINAL("terminal.fluid.wireless", ItemWirelessTerminalFluid.THIS()),
 	STORAGECOMPONET("storage.component", new ItemStorageComponent()),
 	STORAGECASING("storage.casing", new ItemStorageCasing()),
-	FLUIDITEM("fluid.item", new ItemFluid(), null, null), // Internal EC Item
+	FLUIDITEM("fluid.item", new ItemFluid(), null, null),
 	FLUIDSTORAGEPORTABLE("storage.fluid.portable", ItemStoragePortableFluidCell.THIS()),
-	CRAFTINGPATTERN("pattern.crafting", new ItemInternalCraftingPattern(), null, null),// Internal EC Item
-	UNIVERSALTERMINAL("terminal.universal.wireless", ItemWirelessTerminalUniversal.THIS()),
-	OCUPGRADE("oc.upgrade", ItemOCUpgrade.THIS(), Integration.Mods.OPENCOMPUTERS);
+	CRAFTINGPATTERN("pattern.crafting", new ItemInternalCraftingPattern(), null, null);
 
 	private final String internalName;
 	private Item item;

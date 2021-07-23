@@ -67,11 +67,6 @@ repositories {
     }
 	
 	maven {
-		name 'Open Computers'
-		url "http://maven.cil.li/"
-	}
-	
-	maven {
         name = 'IGW'
         url = "http://maven.k-4u.nl/"
     }
@@ -92,7 +87,6 @@ dependencies {
 	compile ("mcp.mobius.waila:Waila:${config.version.waila}") {
         transitive = false
 	}
-	compile "li.cil.oc:OpenComputers:${config.version.oc}:dev"
 	compile "codechicken:CodeChickenLib:${config.version.minecraft}-${config.version.ccl}:dev"
     compile "codechicken:CodeChickenCore:${config.version.minecraft}-${config.version.ccc}:dev"
     compile "codechicken:NotEnoughItems:${config.version.minecraft}-${config.version.nei}:dev"

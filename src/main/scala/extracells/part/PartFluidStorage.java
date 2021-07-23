@@ -24,6 +24,7 @@ import extracells.inventory.HandlerPartStorageFluid;
 import extracells.network.packet.other.IFluidSlotPartOrBlock;
 import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.PacketBusFluidStorage;
+import extracells.registries.PartEnum;
 import extracells.render.TextureManager;
 import extracells.util.PermissionUtil;
 import extracells.util.inventory.InventoryUpgrades;
@@ -53,7 +54,7 @@ public class PartFluidStorage extends PartWithInventory implements ICellContaine
     private AccessRestriction access = AccessRestriction.READ_WRITE;
 
     public PartFluidStorage() {
-        super(new InventoryUpgrades(1, InventoryUpgrades.UPGRADE_INVERTED), "upgradeInventory");
+        super(new InventoryUpgrades(1, PartEnum.FLUID_STORAGE.getUpgradesMaxLimit()), "upgradeInventory");
     }
 
     @Override

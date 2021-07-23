@@ -81,41 +81,33 @@ public class NameHandler implements ISubItemResolver {
 
 		// Parts
 		if (fullName.equals("partFluidImportBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDIMPORT.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_IMPORT.ordinal());
 		if (fullName.equals("partFluidExportBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDEXPORT.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_EXPORT.ordinal());
 		if (fullName.equals("partFluidStorageBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDSTORAGE.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_STORAGE.ordinal());
 		if (fullName.equals("partFluidTerminal"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDTERMINAL.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_TERMINAL.ordinal());
 		if (fullName.equals("partFluidLevelEmitter"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDLEVELEMITTER.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_LEVEL_EMITTER.ordinal());
 		if (fullName.equals("partFluidAnnihilationPlane"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDPANEANNIHILATION.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_PANE_ANNIHILATION.ordinal());
 		if (fullName.equals("partFluidFormationPlane"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDPANEFORMATION.ordinal());
-		if (fullName.equals("partDrive"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.DRIVE.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_PANE_FORMATION.ordinal());
 		if (fullName.equals("partInterface"))
 			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.INTERFACE.ordinal());
-		if (fullName.equals("partStorageMonitor"))//TODO: Remve
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDMONITOR.ordinal());
-		if (fullName.equals("partConversionMonitor"))//TODO: Remve
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDCONVERSIONMONITOR.ordinal());
 		if (fullName.equals("partFluidStorageMonitor"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDMONITOR.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_MONITOR.ordinal());
 		if (fullName.equals("partFluidConversionMonitor"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUIDCONVERSIONMONITOR.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.FLUID_CONVERSION_MONITOR.ordinal());
 		if (fullName.equals("partOreDictExportBus"))
-			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.OREDICTEXPORTBUS.ordinal());
+			return new ResolverResult(ItemEnum.PARTITEM.getInternalName(), PartEnum.ORE_DICT_EXPORT_BUS.ordinal());
 
 		// MISC
 		if (fullName.equals("certusTank"))
 			return new ResolverResult(BlockEnum.CERTUSTANK.getInternalName(), 0);
 		if (fullName.equals("fluidPattern"))
 			return new ResolverResult(ItemEnum.FLUIDPATTERN.getInternalName(), 0);
-		if (fullName.equals("fluidCrafter"))
-			return new ResolverResult(BlockEnum.FLUIDCRAFTER.getInternalName(), 0);
 		if (fullName.equals("wirelessFluidTerminal"))
 			return new ResolverResult(ItemEnum.FLUIDWIRELESSTERMINAL.getInternalName(), 0);
 		if (fullName.equals("walrus"))
@@ -124,8 +116,6 @@ public class NameHandler implements ISubItemResolver {
 			return new ResolverResult(BlockEnum.ECBASEBLOCK.getInternalName(), 0);
 		if (fullName.equals("fluidFiller"))
 			return new ResolverResult(BlockEnum.ECBASEBLOCK.getInternalName(), 1);
-		if (fullName.equals("hardMEDrive"))
-			return new ResolverResult(BlockEnum.BLASTRESISTANTMEDRIVE.getInternalName(), 0);
 
 		return null;
 	}

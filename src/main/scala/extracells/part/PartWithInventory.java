@@ -7,10 +7,9 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.List;
 
-public abstract class PartWithInventory extends PartECBase implements IInventoryUpdateReceiver {
+public abstract class PartWithInventory extends PartBase implements IInventoryUpdateReceiver {
     // We need this for back-compatibility, so that inventories that has
     // different names than default will not disappear.
-
     private final String inventoryName;
     private final InventoryBase inventory;
 
