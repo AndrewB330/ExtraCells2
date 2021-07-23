@@ -5,8 +5,8 @@ import appeng.api.util.DimensionalCoord;
 
 public interface IECTileEntity extends IGridHost {
 
-	DimensionalCoord getLocation();
+    DimensionalCoord getLocation();
 
-	double getPowerUsage();
+    double getPowerUsage();
 
 }

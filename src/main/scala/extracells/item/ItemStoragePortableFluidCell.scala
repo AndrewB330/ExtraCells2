@@ -23,7 +23,9 @@ object ItemStoragePortableFluidCell extends ItemECBase with IPortableFluidStorag
 
   override val MAX_POWER: Double = 20000
   private[item] var icon: IIcon = null
+
   def THIS = this
+
   setMaxStackSize(1)
   setMaxDamage(0)
 

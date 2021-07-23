@@ -13,7 +13,8 @@ public class UpgradesNumber {
     public int craftingUpgrades = 0;
     public int fuzzyUpgrades = 0;
 
-    public UpgradesNumber() {}
+    public UpgradesNumber() {
+    }
 
     public UpgradesNumber(int speed, int capacity, int redstone, int inverted, int crafting, int fuzzy) {
         speedUpgrades = speed;

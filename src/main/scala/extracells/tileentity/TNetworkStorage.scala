@@ -10,8 +10,8 @@ import net.minecraftforge.common.util.ForgeDirection
 trait TNetworkStorage {
 
   def getStorageGrid(side: ForgeDirection): IStorageGrid = {
-    if(!this.isInstanceOf[IGridHost])
-      return  null
+    if (!this.isInstanceOf[IGridHost])
+      return null
     val host = this.asInstanceOf[IGridHost]
     if (host.getGridNode(side) == null) return null
     val grid: IGrid = host.getGridNode(side).getGrid

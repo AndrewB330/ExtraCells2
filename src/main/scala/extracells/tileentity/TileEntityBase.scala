@@ -1,4 +1,6 @@
-package extracells.tileentity;
+package extracells.tileentity
+
+;
 
 import net.minecraft.tileentity.TileEntity;
 

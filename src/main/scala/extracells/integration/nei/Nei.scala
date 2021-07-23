@@ -19,7 +19,7 @@ object Nei {
         val list = new util.ArrayList[ItemStack]
         i.getSubItems(i, Extracells.ModTab, list)
         val it = list.iterator
-        while(it.hasNext){
+        while (it.hasNext) {
           API.hideItem(it.next)
         }
       }
@@ -31,7 +31,7 @@ object Nei {
         val list = new util.ArrayList[ItemStack]
         b.getSubBlocks(Item.getItemFromBlock(b), Extracells.ModTab, list)
         val it = list.iterator
-        while(it.hasNext){
+        while (it.hasNext) {
           API.hideItem(it.next)
         }
       }

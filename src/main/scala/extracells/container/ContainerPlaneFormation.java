@@ -17,82 +17,82 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerPlaneFormation extends Container {
 
-	private GuiFluidPlaneFormation gui;
+    private GuiFluidPlaneFormation gui;
 
-	public ContainerPlaneFormation(PartFluidPlaneFormation part,
-			EntityPlayer player) {
-		addSlotToContainer(new SlotUpgrades(part.getInventory(), 0,187, 8));
-		bindPlayerInventory(player.inventory);
+    public ContainerPlaneFormation(PartFluidPlaneFormation part,
+                                   EntityPlayer player) {
+        addSlotToContainer(new SlotUpgrades(part.getInventory(), 0, 187, 8));
+        bindPlayerInventory(player.inventory);
 
-		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			ItemStack stack = player.inventory.getStackInSlot(i);
-			if (stack != null
-					&& AEApi.instance().definitions().items().networkTool().isSameAs(stack)) {
-				DimensionalCoord coord = part.getHost().getLocation();
-				IGuiItem guiItem = (IGuiItem) stack.getItem();
-				INetworkTool networkTool = (INetworkTool) guiItem.getGuiObject(
-						stack, coord.getWorld(), coord.x, coord.y, coord.z);
-				for (int j = 0; j < 3; j++) {
-					for (int k = 0; k < 3; k++) {
-						addSlotToContainer(new SlotNetworkTool(networkTool, j
-								+ k * 3, 187 + k * 18, j * 18 + 102));
-					}
-				}
-				return;
-			}
-		}
-	}
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            ItemStack stack = player.inventory.getStackInSlot(i);
+            if (stack != null
+                    && AEApi.instance().definitions().items().networkTool().isSameAs(stack)) {
+                DimensionalCoord coord = part.getHost().getLocation();
+                IGuiItem guiItem = (IGuiItem) stack.getItem();
+                INetworkTool networkTool = (INetworkTool) guiItem.getGuiObject(
+                        stack, coord.getWorld(), coord.x, coord.y, coord.z);
+                for (int j = 0; j < 3; j++) {
+                    for (int k = 0; k < 3; k++) {
+                        addSlotToContainer(new SlotNetworkTool(networkTool, j
+                                + k * 3, 187 + k * 18, j * 18 + 102));
+                    }
+                }
+                return;
+            }
+        }
+    }
 
-	protected void bindPlayerInventory(IInventory inventoryPlayer) {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
-						8 + j * 18, i * 18 + 102));
-			}
-		}
+    protected void bindPlayerInventory(IInventory inventoryPlayer) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 9; j++) {
+                addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9,
+                        8 + j * 18, i * 18 + 102));
+            }
+        }
 
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 160));
-		}
-	}
+        for (int i = 0; i < 9; i++) {
+            addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 160));
+        }
+    }
 
-	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return true;
-	}
+    @Override
+    public boolean canInteractWith(EntityPlayer entityplayer) {
+        return true;
+    }
 
-	public void setGui(GuiFluidPlaneFormation _gui) {
-		this.gui = _gui;
-	}
+    public void setGui(GuiFluidPlaneFormation _gui) {
+        this.gui = _gui;
+    }
 
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotnumber) {
-		if (this.gui != null)
-			this.gui.shiftClick(getSlot(slotnumber).getStack());
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotnumber) {
+        if (this.gui != null)
+            this.gui.shiftClick(getSlot(slotnumber).getStack());
 
-		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(slotnumber);
+        ItemStack itemstack = null;
+        Slot slot = (Slot) this.inventorySlots.get(slotnumber);
 
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
 
-			if (slotnumber < 36) {
-				if (!mergeItemStack(itemstack1, 36, this.inventorySlots.size(),
-						true)) {
-					return null;
-				}
-			} else if (!mergeItemStack(itemstack1, 0, 36, false)) {
-				return null;
-			}
+            if (slotnumber < 36) {
+                if (!mergeItemStack(itemstack1, 36, this.inventorySlots.size(),
+                        true)) {
+                    return null;
+                }
+            } else if (!mergeItemStack(itemstack1, 0, 36, false)) {
+                return null;
+            }
 
-			if (itemstack1.stackSize == 0) {
-				slot.putStack(null);
-			} else {
-				slot.onSlotChanged();
-			}
-		}
+            if (itemstack1.stackSize == 0) {
+                slot.putStack(null);
+            } else {
+                slot.onSlotChanged();
+            }
+        }
 
-		return itemstack;
-	}
+        return itemstack;
+    }
 }

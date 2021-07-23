@@ -6,11 +6,11 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import extracells.network.packet.part.PacketBusFluidStorage;
 
 public class HandlerBusFluidStorage implements
-		IMessageHandler<PacketBusFluidStorage, IMessage> {
+        IMessageHandler<PacketBusFluidStorage, IMessage> {
 
-	@Override
-	public IMessage onMessage(PacketBusFluidStorage message, MessageContext ctx) {
-		message.execute();
-		return null;
-	}
+    @Override
+    public IMessage onMessage(PacketBusFluidStorage message, MessageContext ctx) {
+        message.execute();
+        return null;
+    }
 }
