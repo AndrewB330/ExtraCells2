@@ -79,7 +79,10 @@ public class ModelCertusTank extends ModelBase {
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		tessellator.setBrightness(15728640);
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+		tessellator.setColorOpaque_F(1.0f, 1.0f, 1.0f);
+        tessellator.setBrightness(block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z));
+
 		boolean tankUp = world.getTileEntity(x, y + 1, z) instanceof TileEntityCertusTank;
 		boolean tankDown = world.getTileEntity(x, y - 1, z) instanceof TileEntityCertusTank;
 		int meta = 0;
@@ -115,6 +118,10 @@ public class ModelCertusTank extends ModelBase {
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
+		tessellator.setColorOpaque_F(1.0f, 1.0f, 1.0f);
+        tessellator.setBrightness(block.getMixedBrightnessForBlock(renderer.blockAccess, x, y, z));
+
 		boolean tankUp = world.getTileEntity(x, y + 1, z) instanceof TileEntityCertusTank;
 		boolean tankDown = world.getTileEntity(x, y - 1, z) instanceof TileEntityCertusTank;
 		int meta = 0;
