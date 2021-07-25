@@ -1,9 +1,12 @@
 package extracells.crafting;
 
+import java.util.HashMap;
+import java.util.Map;
 import appeng.api.AEApi;
 import appeng.api.networking.crafting.ICraftingPatternDetails;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import extracells.api.crafting.IFluidCraftingPatternDetails;
 import extracells.registries.ItemEnum;
 import net.minecraft.inventory.InventoryCrafting;
@@ -159,61 +162,32 @@ public class CraftingPattern implements IFluidCraftingPatternDetails,
 			boolean isCondenced) {
 
 		IAEItemStack[] returnStack = new IAEItemStack[requirements.length];
-
 		IAEFluidStack[] fluidStacks = new IAEFluidStack[requirements.length];
 
-		int removed = 0;
-		int i = 0;
-		for (IAEItemStack currentRequirement : requirements) {
-
-			if (currentRequirement != null) {
+		for(int i = 0; i < requirements.length; i++) {
+			IAEItemStack currentRequirement = requirements[i];
+			if(currentRequirement != null) {
 				ItemStack current = currentRequirement.getItemStack();
 				current.stackSize = 1;
 				FluidStack fluid = null;
 				if (FluidContainerRegistry.isFilledContainer(current)) {
-					fluid = FluidContainerRegistry
-							.getFluidForFilledItem(current);
+					fluid = FluidContainerRegistry.getFluidForFilledItem(current);
 				} else if (currentRequirement.getItem() instanceof IFluidContainerItem) {
-					fluid = ((IFluidContainerItem) currentRequirement.getItem())
-							.getFluid(current);
+					fluid = ((IFluidContainerItem) currentRequirement.getItem()).getFluid(current);
 				}
+
 				if (fluid == null) {
 					returnStack[i] = currentRequirement;
 				} else {
-					removed++;
-					fluidStacks[i] = AEApi
-							.instance()
-							.storage()
-							.createFluidStack(
-									new FluidStack(
-											fluid.getFluid(),
-											(int) (fluid.amount * currentRequirement
-													.getStackSize())));
+					fluid.amount *= currentRequirement.getStackSize();
+					fluidStacks[i] = AEApi.instance().storage().createFluidStack(fluid);
 				}
 			}
-			i++;
 		}
 
-		if (isCondenced) {
-			int i2 = 0;
-			IAEFluidStack[] fluids = new IAEFluidStack[removed];
-			for (IAEFluidStack fluid : fluidStacks) {
-				if (fluid != null) {
-					fluids[i2] = fluid;
-					i2++;
-				}
-			}
-			int i3 = 0;
-			IAEItemStack[] items = new IAEItemStack[requirements.length
-					- removed];
-			for (IAEItemStack item : returnStack) {
-				if (item != null) {
-					items[i3] = item;
-					i3++;
-				}
-			}
-			returnStack = items;
-			this.fluidsCondensed = fluids;
+		if(isCondenced) {
+			returnStack = condenceStacks(returnStack, new IAEItemStack[0]);
+			this.fluidsCondensed = condenceStacks(fluidStacks, new IAEFluidStack[0]);
 		} else {
 			this.fluids = fluidStacks;
 		}
@@ -230,4 +204,22 @@ public class CraftingPattern implements IFluidCraftingPatternDetails,
 		return this.pattern.hashCode();
 	}
 
+	// gamerforEA start: Added methods
+	private static <T extends IAEStack<T>> T[] condenceStacks(T[] stacks, T[] arrayToReturn) {
+		Map<T, T> tmpMap = new HashMap<>();
+
+		for(T stack : stacks) {
+			if(stack != null) {
+				T tmpStack = tmpMap.get(stack);
+				if(tmpStack == null) {
+					tmpMap.put(stack, stack.copy());
+				} else {
+					tmpStack.add(stack);
+				}
+			}
+		}
+
+		return tmpMap.values().toArray(arrayToReturn);
+	}
+	// gamerforEA end
 }

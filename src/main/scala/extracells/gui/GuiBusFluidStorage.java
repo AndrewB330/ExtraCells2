@@ -155,7 +155,7 @@ public class GuiBusFluidStorage extends ECGuiContainer implements
 	}
 
 	private void renderBackground(Slot slot) {
-		if (slot.getStack() == null && (slot.slotNumber == 0 || slot.slotNumber > 36)) {
+		if (slot.getStack() == null && (slot.slotNumber >= 36)) {
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);

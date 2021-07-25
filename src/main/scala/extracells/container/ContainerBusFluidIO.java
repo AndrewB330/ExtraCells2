@@ -14,15 +14,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBusFluidIO extends Container {
+public class ContainerBusFluidIO extends ContainerBase {
 	private PartFluidIO part;
 	private GuiBusFluidIO guiBusFluidIO;
 
 	public ContainerBusFluidIO(PartFluidIO part, EntityPlayer player) {
+		super(player.inventory, part.getUpgradeInventory(), 8, 102);
 		this.part = part;
-		for (int i = 0; i < 4; i++)
-			addSlotToContainer(new SlotRespective(part.getUpgradeInventory(), i, 187, i * 18 + 8));
-		bindPlayerInventory(player.inventory);
 
 		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 			ItemStack stack = player.inventory.getStackInSlot(i);
@@ -40,16 +38,10 @@ public class ContainerBusFluidIO extends Container {
 		}
 	}
 
-	protected void bindPlayerInventory(IInventory inventoryPlayer) {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 9; j++) {
-				addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, i * 18 + 102));
-			}
-		}
-
-		for (int i = 0; i < 9; i++) {
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 160));
-		}
+	@Override
+	protected void addSlots(IInventory inventoryPlayer) {
+		for (int i = 0; i < 4; i++)
+			addSlotToContainer(new SlotRespective(inventory, i, 187, i * 18 + 8));
 	}
 
 	@Override
