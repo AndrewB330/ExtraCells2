@@ -8,9 +8,6 @@ import extracells.render.TextureManager;
 import extracells.render.item.ItemRendererCertusTank;
 import extracells.render.item.ItemRendererFluid;
 import extracells.render.item.ItemRendererFluidPattern;
-import extracells.render.item.ItemRendererWalrus;
-import extracells.render.tileentity.TileEntityRendererWalrus;
-import extracells.tileentity.TileEntityWalrus;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -31,11 +28,7 @@ public class ClientProxy extends CommonProxy {
                 new ItemRendererCertusTank());
         MinecraftForgeClient.registerItemRenderer(ItemEnum.FLUIDPATTERN.getItem(),
                 new ItemRendererFluidPattern());
-        MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockEnum.WALRUS.getBlock()),
-                new ItemRendererWalrus());
         MinecraftForgeClient.registerItemRenderer(ItemEnum.FLUIDITEM.getItem(), new ItemRendererFluid());
-
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWalrus.class, new TileEntityRendererWalrus());
     }
 
     @SubscribeEvent

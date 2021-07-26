@@ -4,10 +4,11 @@ import extracells.util.inventory.InventoryBase;
 import extracells.util.inventory.IInventoryUpdateReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 
+// TODO: remove?
 public abstract class TileEntityWithInventory extends TileEntityBase implements IInventoryUpdateReceiver {
+
     // We need this for back-compatibility, so that inventories that has
     // different names than default will not disappear.
-
     private final String inventoryName;
     private final InventoryBase inventory;
 

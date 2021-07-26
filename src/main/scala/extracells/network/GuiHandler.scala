@@ -12,7 +12,7 @@ import extracells.container._
 import extracells.gui._
 import extracells.part.PartBase
 import extracells.registries.BlockEnum
-import extracells.tileentity.{TileEntityFluidFiller, TileEntityFluidInterface}
+import extracells.tileentity.TileEntityFluidInterface
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection;
@@ -87,8 +87,6 @@ object GuiHandler extends IGuiHandler {
         return null
       if (tileEntity.isInstanceOf[TileEntityFluidInterface])
         return new GuiFluidInterface(player, tileEntity.asInstanceOf[IFluidInterface])
-      else if (tileEntity.isInstanceOf[TileEntityFluidFiller])
-        return new GuiFluidFiller(player, tileEntity.asInstanceOf[TileEntityFluidFiller])
       return null;
     }
     if (world != null && side != ForgeDirection.UNKNOWN)
@@ -107,8 +105,6 @@ object GuiHandler extends IGuiHandler {
         return null
       if (tileEntity.isInstanceOf[TileEntityFluidInterface])
         return new ContainerFluidInterface(player, tileEntity.asInstanceOf[IFluidInterface]);
-      else if (tileEntity.isInstanceOf[TileEntityFluidFiller])
-        return new ContainerFluidFiller(player.inventory, tileEntity.asInstanceOf[TileEntityFluidFiller])
       return null
     }
     if (world != null && side != ForgeDirection.UNKNOWN)

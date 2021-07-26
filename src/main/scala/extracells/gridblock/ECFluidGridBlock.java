@@ -6,7 +6,6 @@ import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
 import extracells.api.IECTileEntity;
 import extracells.tileentity.IListenerTile;
-import extracells.tileentity.TileEntityFluidFiller;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -83,11 +82,6 @@ public class ECFluidGridBlock implements IGridBlock {
             ((IListenerTile) this.host).updateGrid(this.grid, _grid);
             this.grid = _grid;
             this.usedChannels = _usedChannels;
-            if (this.host instanceof TileEntityFluidFiller
-                    && this.grid.getCache(IStorageGrid.class) != null)
-                ((TileEntityFluidFiller) this.host).postChange(
-                        ((IStorageGrid) this.grid.getCache(IStorageGrid.class))
-                                .getFluidInventory(), null, null);
         } else {
             this.grid = _grid;
             this.usedChannels = _usedChannels;

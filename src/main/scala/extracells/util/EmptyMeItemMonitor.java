@@ -10,6 +10,7 @@ import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 
+// todo: ???? wtf
 public class EmptyMeItemMonitor implements IMEMonitor<IAEItemStack> {
 
     @Override

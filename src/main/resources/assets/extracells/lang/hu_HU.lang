@@ -55,7 +55,6 @@ extracells.part.oredict.export.name=ME Érc Szótár Export Busz
 
 //Blocks
 extracells.block.certustank=Certus Kvarc Tank
-extracells.block.walrus.name=Rozmár
 extracells.block.fluidcrafter.name=ME Folyadék Összeállító
 extracells.block.fluidinterface.name=ME Folyadék Interfész
 extracells.block.fluidfiller.name=ME Automatikus Folyadék Kitöltő

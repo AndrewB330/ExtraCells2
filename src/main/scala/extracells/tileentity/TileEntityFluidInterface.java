@@ -34,6 +34,7 @@ import extracells.network.packet.other.IFluidSlotPartOrBlock;
 import extracells.registries.ItemEnum;
 import extracells.util.EmptyMeItemMonitor;
 import extracells.util.ItemUtils;
+import extracells.util.inventory.InventoryPatterns;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -54,210 +55,71 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TileEntityFluidInterface extends TileEntityBase implements
-        IActionHost, IFluidHandler, IECTileEntity, IFluidInterface,
-        IFluidSlotPartOrBlock, ITileStorageMonitorable, IStorageMonitorable,
-        ICraftingProvider, IWailaTile {
+public class TileEntityFluidInterface extends TileEntityWithInventory implements
+        IActionHost, IFluidHandler, IECTileEntity, IFluidInterface, IFluidSlotPartOrBlock, ITileStorageMonitorable,
+        IStorageMonitorable, ICraftingProvider, IWailaTile {
 
-    private class FluidInterfaceInventory implements IInventory {
+    List<IContainerListener> listeners = new ArrayList<>();
 
-        private ItemStack[] inv = new ItemStack[9];
-
-        @Override
-        public void closeInventory() {
-        }
-
-        @Override
-        public ItemStack decrStackSize(int slot, int amt) {
-            ItemStack stack = getStackInSlot(slot);
-            if (stack != null) {
-                if (stack.stackSize <= amt) {
-                    setInventorySlotContents(slot, null);
-                } else {
-                    stack = stack.splitStack(amt);
-                    if (stack.stackSize == 0) {
-                        setInventorySlotContents(slot, null);
-                    }
-                }
-            }
-            TileEntityFluidInterface.this.update = true;
-            return stack;
-        }
-
-        @Override
-        public String getInventoryName() {
-            return "inventory.fluidInterface";
-        }
-
-        @Override
-        public int getInventoryStackLimit() {
-            return 1;
-        }
-
-        @Override
-        public int getSizeInventory() {
-            return this.inv.length;
-        }
-
-        @Override
-        public ItemStack getStackInSlot(int slot) {
-            return this.inv[slot];
-        }
-
-        @Override
-        public ItemStack getStackInSlotOnClosing(int slot) {
-            return null;
-        }
-
-        @Override
-        public boolean hasCustomInventoryName() {
-            return false;
-        }
-
-        @Override
-        public boolean isItemValidForSlot(int slot, ItemStack stack) {
-            if (stack.getItem() instanceof ICraftingPatternItem) {
-                ICraftingPatternDetails details = ((ICraftingPatternItem) stack
-                        .getItem()).getPatternForItem(stack, getWorldObj());
-                return details != null;
-            }
-            return false;
-        }
-
-        @Override
-        public boolean isUseableByPlayer(EntityPlayer player) {
-            return true;
-        }
-
-        @Override
-        public void markDirty() {
-        }
-
-        @Override
-        public void openInventory() {
-        }
-
-        public void readFromNBT(NBTTagCompound tagCompound) {
-
-            NBTTagList tagList = tagCompound.getTagList("Inventory", 10);
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound tag = tagList.getCompoundTagAt(i);
-                byte slot = tag.getByte("Slot");
-                if (slot >= 0 && slot < this.inv.length) {
-                    this.inv[slot] = ItemStack.loadItemStackFromNBT(tag);
-                }
-            }
-        }
-
-        @Override
-        public void setInventorySlotContents(int slot, ItemStack stack) {
-            this.inv[slot] = stack;
-            if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-                stack.stackSize = getInventoryStackLimit();
-            }
-            TileEntityFluidInterface.this.update = true;
-        }
-
-        public void writeToNBT(NBTTagCompound tagCompound) {
-
-            NBTTagList itemList = new NBTTagList();
-            for (int i = 0; i < this.inv.length; i++) {
-                ItemStack stack = this.inv[i];
-                if (stack != null) {
-                    NBTTagCompound tag = new NBTTagCompound();
-                    tag.setByte("Slot", (byte) i);
-                    stack.writeToNBT(tag);
-                    itemList.appendTag(tag);
-                }
-            }
-            tagCompound.setTag("Inventory", itemList);
-        }
-    }
-
-    List<IContainerListener> listeners = new ArrayList<IContainerListener>();
-    private ECFluidGridBlock gridBlock;
+    private final ECFluidGridBlock gridBlock;
     private IGridNode node = null;
+
     public FluidTank[] tanks = new FluidTank[6];
     public Integer[] fluidFilter = new Integer[this.tanks.length];
+
     public boolean doNextUpdate = false;
     private boolean wasIdle = false;
     private int tickCount = 0;
     private boolean update = false;
-    private List<ICraftingPatternDetails> patternHandlers = new ArrayList<ICraftingPatternDetails>();
-    private HashMap<ICraftingPatternDetails, IFluidCraftingPatternDetails> patternConvert = new HashMap<ICraftingPatternDetails, IFluidCraftingPatternDetails>();
-    private List<IAEItemStack> requestedItems = new ArrayList<IAEItemStack>();
-    private List<IAEItemStack> removeList = new ArrayList<IAEItemStack>();
-    public final FluidInterfaceInventory inventory;
+
+    private final HashMap<ICraftingPatternDetails, IFluidCraftingPatternDetails> patternConvert = new HashMap<ICraftingPatternDetails, IFluidCraftingPatternDetails>();
     private IAEItemStack toExport = null;
 
-    private final Item encodedPattern = AEApi.instance().definitions().items().encodedPattern()
-            .maybeItem().orNull();
-    private List<IAEStack> export = new ArrayList<IAEStack>();
+    private final Item encodedPattern = AEApi.instance().definitions().items().encodedPattern().maybeItem().orNull();
 
-    private List<IAEStack> addToExport = new ArrayList<IAEStack>();
-
-    private List<IAEItemStack> watcherList = new ArrayList<IAEItemStack>();
+    private final List<IAEStack> export = new ArrayList<>();
+    private final List<IAEStack> addToExport = new ArrayList<>();
 
     private boolean isFirstGetGridNode = true;
 
     public TileEntityFluidInterface() {
-        super();
-        this.inventory = new FluidInterfaceInventory();
+        super(new InventoryPatterns("inventory", 9));
         this.gridBlock = new ECFluidGridBlock(this);
+
+        // Add fluid tanks with filters
         for (int i = 0; i < this.tanks.length; i++) {
-            this.tanks[i] = new FluidTank(10000) {
-                @Override
-                public FluidTank readFromNBT(NBTTagCompound nbt) {
-                    if (!nbt.hasKey("Empty")) {
-                        FluidStack fluid = FluidStack
-                                .loadFluidStackFromNBT(nbt);
-                        setFluid(fluid);
-                    } else {
-                        setFluid(null);
-                    }
-                    return this;
-                }
-            };
+            this.tanks[i] = new FluidTank(16000);
             this.fluidFilter[i] = -1;
         }
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        if (from == ForgeDirection.UNKNOWN)
-            return false;
-        FluidStack tankFluid = this.tanks[from.ordinal()].getFluid();
-        return tankFluid != null && tankFluid.getFluid() == fluid;
+        return drain(from, new FluidStack(fluid, 1), false) != null;
     }
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return from != ForgeDirection.UNKNOWN
-                && this.tanks[from.ordinal()].fill(new FluidStack(fluid, 1), false) > 0;
+        return fill(from, new FluidStack(fluid, 1), false) == 1;
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource,
-                            boolean doDrain) {
-        FluidStack tankFluid = this.tanks[from.ordinal()].getFluid();
-        if (resource == null || tankFluid == null
-                || tankFluid.getFluid() != resource.getFluid())
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        FluidStack tankFluid = this.getFluidTank(from).getFluid();
+        if (resource == null || tankFluid == null || tankFluid.getFluid() != resource.getFluid())
             return null;
         return drain(from, resource.amount, doDrain);
-
     }
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         if (from == ForgeDirection.UNKNOWN)
             return null;
-        FluidStack drained = this.tanks[from.ordinal()]
-                .drain(maxDrain, doDrain);
-        if (drained != null)
-            if (getWorldObj() != null)
-                getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord,
-                        this.zCoord);
-        this.doNextUpdate = true;
+        FluidStack drained = this.getFluidTank(from).drain(maxDrain, doDrain);
+        if (drained != null && getWorldObj() != null) {
+            getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord); // TODO: why?
+        }
+        this.doNextUpdate = true; // TODO: why?
         return drained;
     }
 
@@ -266,75 +128,62 @@ public class TileEntityFluidInterface extends TileEntityBase implements
         if (from == ForgeDirection.UNKNOWN || resource == null)
             return 0;
 
-        if ((this.tanks[from.ordinal()].getFluid() == null || this.tanks[from
-                .ordinal()].getFluid().getFluid() == resource.getFluid())
-                && resource.getFluid() == FluidRegistry
-                .getFluid(this.fluidFilter[from.ordinal()])) {
-            int added = this.tanks[from.ordinal()]
-                    .fill(resource.copy(), doFill);
-            if (added == resource.amount) {
-                this.doNextUpdate = true;
-                return added;
+        IFluidTank tank = this.getFluidTank(from);
+        FluidStack tankFluid = tank.getFluid();
+        if ((tankFluid == null || tankFluid.getFluid() == resource.getFluid()) && resource.getFluid() == this.getFilter(from)) {
+            int filled = tank.fill(resource.copy(), doFill);
+            if (filled == resource.amount) {
+                this.doNextUpdate = true; // TODO: why?
+                return filled;
             }
-            added += fillToNetwork(new FluidStack(resource.getFluid(),
-                    resource.amount - added), doFill);
-            this.doNextUpdate = true;
-            return added;
+            filled += fillToNetwork(new FluidStack(resource.getFluid(), resource.amount - filled), doFill);
+            this.doNextUpdate = true; // TODO: why?
+            return filled;
         }
 
         int filled = 0;
         filled += fillToNetwork(resource, doFill);
 
-        if (filled < resource.amount)
-            filled += this.tanks[from.ordinal()].fill(new FluidStack(
-                    resource.getFluid(), resource.amount - filled), doFill);
-        if (filled > 0)
-            if (getWorldObj() != null)
-                getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord,
-                        this.zCoord);
-        this.doNextUpdate = true;
+        if (filled < resource.amount) {
+            filled += tank.fill(new FluidStack(resource.getFluid(), resource.amount - filled), doFill);
+        }
+
+        if (filled > 0 && getWorldObj() != null) {
+            getWorldObj().markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord); // TODO: why?
+        }
+        this.doNextUpdate = true; // TODO: why?
         return filled;
     }
 
     public int fillToNetwork(FluidStack resource, boolean doFill) {
-        IGridNode node = getGridNode(ForgeDirection.UNKNOWN);
-        if (node == null || resource == null)
-            return 0;
-        IGrid grid = node.getGrid();
-        if (grid == null)
-            return 0;
-        IStorageGrid storage = grid.getCache(IStorageGrid.class);
-        if (storage == null)
-            return 0;
-        IAEFluidStack notRemoved;
-        FluidStack copy = resource.copy();
-        if (doFill) {
-            notRemoved = storage.getFluidInventory().injectItems(
-                    AEApi.instance().storage().createFluidStack(resource),
-                    Actionable.MODULATE, new MachineSource(this));
-        } else {
-            notRemoved = storage.getFluidInventory().injectItems(
-                    AEApi.instance().storage().createFluidStack(resource),
-                    Actionable.SIMULATE, new MachineSource(this));
-        }
-        if (notRemoved == null)
+        IMEMonitor<IAEFluidStack> fluidInventory = getFluidInventory();
+        Actionable action = doFill ? Actionable.MODULATE : Actionable.SIMULATE;
+        IAEFluidStack notRemoved = fluidInventory.injectItems(
+                AEApi.instance().storage().createFluidStack(resource), action, new MachineSource(this)
+        );
+        if (notRemoved == null) {
             return resource.amount;
+        }
         return (int) (resource.amount - notRemoved.getStackSize());
     }
 
     private void forceUpdate() {
+        // TODO: why ????
         getWorldObj().markBlockForUpdate(this.yCoord, this.yCoord, this.zCoord);
         for (IContainerListener listener : this.listeners) {
-            if (listener != null)
+            if (listener != null) {
                 listener.updateContainer();
+            }
         }
         this.doNextUpdate = false;
     }
 
     @Override
     public IGridNode getActionableNode() {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        // TODO: check this too
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             return null;
+        }
         if (this.node == null) {
             this.node = AEApi.instance().createGridNode(this.gridBlock);
         }
@@ -343,21 +192,21 @@ public class TileEntityFluidInterface extends TileEntityBase implements
 
     @Override
     public AECableType getCableConnectionType(ForgeDirection dir) {
-        return AECableType.DENSE;
+        return AECableType.SMART;
     }
 
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound nbtTag = new NBTTagCompound();
         writeToNBTWithoutExport(nbtTag);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
-                this.zCoord, 1, nbtTag);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbtTag);
     }
 
     @Override
     public Fluid getFilter(ForgeDirection side) {
-        if (side == null || side == ForgeDirection.UNKNOWN)
+        if (side == null || side == ForgeDirection.UNKNOWN) {
             return null;
+        }
         return FluidRegistry.getFluid(this.fluidFilter[side.ordinal()]);
     }
 
@@ -368,19 +217,20 @@ public class TileEntityFluidInterface extends TileEntityBase implements
 
     @Override
     public IFluidTank getFluidTank(ForgeDirection side) {
-        if (side == null || side == ForgeDirection.UNKNOWN)
+        if (side == null || side == ForgeDirection.UNKNOWN) {
             return null;
+        }
         return this.tanks[side.ordinal()];
     }
 
     @Override
     public IGridNode getGridNode(ForgeDirection dir) {
-        if (FMLCommonHandler.instance().getSide().isClient()
-                && (getWorldObj() == null || getWorldObj().isRemote))
+        if (FMLCommonHandler.instance().getSide().isClient() && (getWorldObj() == null || getWorldObj().isRemote)) {
             return null;
+        }
         if (this.isFirstGetGridNode) {
             this.isFirstGetGridNode = false;
-            getActionableNode().updateState();
+            getActionableNode().updateState(); // todo: why here? can't we do that every time?
         }
         return this.node;
     }
@@ -396,14 +246,13 @@ public class TileEntityFluidInterface extends TileEntityBase implements
     }
 
     @Override
-    public IStorageMonitorable getMonitorable(ForgeDirection side,
-                                              BaseActionSource src) {
+    public IStorageMonitorable getMonitorable(ForgeDirection side, BaseActionSource src) {
         return this;
     }
 
     @Override
     public IInventory getPatternInventory() {
-        return this.inventory;
+        return this.getInventory();
     }
 
     @Override
@@ -415,54 +264,41 @@ public class TileEntityFluidInterface extends TileEntityBase implements
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         if (from == ForgeDirection.UNKNOWN)
             return null;
-        return new FluidTankInfo[]{this.tanks[from.ordinal()].getInfo()};
+        return new FluidTankInfo[]{this.getFluidTank(from).getInfo()};
     }
 
     @Override
-    public List<String> getWailaBody(List<String> list, NBTTagCompound tag,
-                                     ForgeDirection side) {
+    public List<String> getWailaBody(List<String> list, NBTTagCompound tag, ForgeDirection side) {
         if (side == null || side == ForgeDirection.UNKNOWN)
             return list;
-        list.add(StatCollector.translateToLocal("extracells.tooltip.direction."
-                + side.ordinal()));
+        list.add(StatCollector.translateToLocal("extracells.tooltip.direction." + side.ordinal()));
         FluidTank[] tanks = new FluidTank[6];
         for (int i = 0; i < tanks.length; i++) {
-            tanks[i] = new FluidTank(10000) {
-                @Override
-                public FluidTank readFromNBT(NBTTagCompound nbt) {
-                    if (!nbt.hasKey("Empty")) {
-                        FluidStack fluid = FluidStack
-                                .loadFluidStackFromNBT(nbt);
-                        setFluid(fluid);
-                    } else {
-                        setFluid(null);
-                    }
-                    return this;
-                }
-            };
+            tanks[i] = new FluidTank(16000);
         }
 
         for (int i = 0; i < tanks.length; i++) {
-            if (tag.hasKey("tank#" + i))
+            if (tag.hasKey("tank#" + i)) {
                 tanks[i].readFromNBT(tag.getCompoundTag("tank#" + i));
+            }
         }
-        FluidTank tank = tanks[side.ordinal()];
-        if (tank == null || tank.getFluid() == null
-                || tank.getFluid().getFluid() == null) {
+
+        IFluidTank tank = getFluidTank(side);
+        if (tank == null || tank.getFluid() == null || tank.getFluid().getFluid() == null) {
             list.add(StatCollector.translateToLocal("extracells.tooltip.fluid")
                     + ": "
                     + StatCollector
                     .translateToLocal("extracells.tooltip.empty1"));
             list.add(StatCollector
                     .translateToLocal("extracells.tooltip.amount")
-                    + ": 0mB / 10000mB");
+                    + ": 0mB / 16000mB"); // todo: make a constant??
         } else {
             list.add(StatCollector.translateToLocal("extracells.tooltip.fluid")
                     + ": " + tank.getFluid().getLocalizedName());
             list.add(StatCollector
                     .translateToLocal("extracells.tooltip.amount")
                     + ": "
-                    + tank.getFluidAmount() + "mB / 10000mB");
+                    + tank.getFluidAmount() + "mB / 16000mB"); // todo: make a constant??
         }
         return list;
     }
@@ -470,8 +306,7 @@ public class TileEntityFluidInterface extends TileEntityBase implements
     @Override
     public NBTTagCompound getWailaTag(NBTTagCompound tag) {
         for (int i = 0; i < this.tanks.length; i++) {
-            tag.setTag("tank#" + i,
-                    this.tanks[i].writeToNBT(new NBTTagCompound()));
+            tag.setTag("tank#" + i, this.tanks[i].writeToNBT(new NBTTagCompound()));
         }
         return tag;
     }
@@ -514,30 +349,21 @@ public class TileEntityFluidInterface extends TileEntityBase implements
 
     @Override
     public void provideCrafting(ICraftingProviderHelper craftingTracker) {
-        this.patternHandlers = new ArrayList<ICraftingPatternDetails>();
         this.patternConvert.clear();
 
-        for (ItemStack currentPatternStack : this.inventory.inv) {
-            if (currentPatternStack != null
-                    && currentPatternStack.getItem() != null
-                    && currentPatternStack.getItem() instanceof ICraftingPatternItem) {
-                ICraftingPatternItem currentPattern = (ICraftingPatternItem) currentPatternStack
-                        .getItem();
-
-                if (currentPattern != null
-                        && currentPattern.getPatternForItem(
-                        currentPatternStack, getWorldObj()) != null) {
-                    IFluidCraftingPatternDetails pattern = new CraftingPattern2(
-                            currentPattern.getPatternForItem(
-                                    currentPatternStack, getWorldObj()));
-                    this.patternHandlers.add(pattern);
-                    ItemStack is = makeCraftingPatternItem(pattern);
-                    if (is == null)
+        for (ItemStack pattern : this.getInventory().getContent()) {
+            if (pattern != null && pattern.getItem() != null && pattern.getItem() instanceof ICraftingPatternItem) {
+                ICraftingPatternItem patternItem = (ICraftingPatternItem) pattern.getItem();
+                if (patternItem != null && patternItem.getPatternForItem(pattern, getWorldObj()) != null) {
+                    // todo: check this
+                    IFluidCraftingPatternDetails fluidPatternDetails = new CraftingPattern2(patternItem.getPatternForItem(pattern, getWorldObj()));
+                    ItemStack is = makeCraftingPatternItem(fluidPatternDetails);
+                    if (is == null) {
                         continue;
-                    ICraftingPatternDetails p = ((ICraftingPatternItem) is
-                            .getItem()).getPatternForItem(is, getWorldObj());
-                    this.patternConvert.put(p, pattern);
-                    craftingTracker.addCraftingOption(this, p);
+                    }
+                    ICraftingPatternDetails itemPatternDetail = ((ICraftingPatternItem) is.getItem()).getPatternForItem(is, getWorldObj());
+                    this.patternConvert.put(itemPatternDetail, fluidPatternDetails);
+                    craftingTracker.addCraftingOption(this, itemPatternDetail);
                 }
             }
         }
@@ -550,9 +376,7 @@ public class TileEntityFluidInterface extends TileEntityBase implements
             return;
         ForgeDirection[] directions = ForgeDirection.VALID_DIRECTIONS;
         for (ForgeDirection dir : directions) {
-            TileEntity tile = getWorldObj().getTileEntity(
-                    this.xCoord + dir.offsetX, this.yCoord + dir.offsetY,
-                    this.zCoord + dir.offsetZ);
+            TileEntity tile = getWorldObj().getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY,this.zCoord + dir.offsetZ);
             if (tile != null) {
                 IAEStack stack0 = this.export.get(0);
                 IAEStack stack = stack0.copy();
@@ -750,8 +574,6 @@ public class TileEntityFluidInterface extends TileEntityBase implements
                 node.updateState();
             }
         }
-        if (tag.hasKey("inventory"))
-            this.inventory.readFromNBT(tag.getCompoundTag("inventory"));
         if (tag.hasKey("export"))
             readOutputFromNBT(tag.getCompoundTag("export"));
     }
@@ -943,16 +765,13 @@ public class TileEntityFluidInterface extends TileEntityBase implements
 
     @Override
     public void updateEntity() {
-        if (getWorldObj() == null || getWorldObj().provider == null
-                || getWorldObj().isRemote)
+        if (getWorldObj() == null || getWorldObj().provider == null || getWorldObj().isRemote) {
             return;
+        }
         if (this.update) {
             this.update = false;
-            if (getGridNode(ForgeDirection.UNKNOWN) != null
-                    && getGridNode(ForgeDirection.UNKNOWN).getGrid() != null) {
-                getGridNode(ForgeDirection.UNKNOWN).getGrid().postEvent(
-                        new MENetworkCraftingPatternChange(this,
-                                getGridNode(ForgeDirection.UNKNOWN)));
+            if (getGridNode(ForgeDirection.UNKNOWN) != null && getGridNode(ForgeDirection.UNKNOWN).getGrid() != null) {
+                getGridNode(ForgeDirection.UNKNOWN).getGrid().postEvent(new MENetworkCraftingPatternChange(this, getGridNode(ForgeDirection.UNKNOWN)));
             }
         }
         pushItems();
@@ -970,7 +789,6 @@ public class TileEntityFluidInterface extends TileEntityBase implements
 
     private NBTTagCompound writeOutputToNBT(NBTTagCompound tag) {
         int i = 0;
-        i = 0;
         for (IAEStack s : this.addToExport) {
             if (s != null) {
                 tag.setBoolean("add-" + i + "-isItem", s.isItem());
@@ -1017,8 +835,7 @@ public class TileEntityFluidInterface extends TileEntityBase implements
     public void writeToNBTWithoutExport(NBTTagCompound tag) {
         super.writeToNBT(tag);
         for (int i = 0; i < this.tanks.length; i++) {
-            tag.setTag("tank#" + i,
-                    this.tanks[i].writeToNBT(new NBTTagCompound()));
+            tag.setTag("tank#" + i, this.tanks[i].writeToNBT(new NBTTagCompound()));
             tag.setInteger("filter#" + i, this.fluidFilter[i]);
         }
         if (!hasWorldObj())
@@ -1029,8 +846,10 @@ public class TileEntityFluidInterface extends TileEntityBase implements
             node.saveToNBT("node0", nodeTag);
             tag.setTag("nodes", nodeTag);
         }
-        NBTTagCompound inventory = new NBTTagCompound();
-        this.inventory.writeToNBT(inventory);
-        tag.setTag("inventory", inventory);
+    }
+
+    @Override
+    public void onInventoryChanged() {
+        // todo: do something?
     }
 }

@@ -56,7 +56,6 @@ extracells.part.oredict.export.name=ME Ore Dictionary Export Bus
 
 //Blocks
 extracells.block.certustank=Certus Quartz Tank
-extracells.block.walrus.name=Walrus
 extracells.block.fluidcrafter.name=ME Fluid Assembler
 extracells.block.fluidinterface.name=ME Fluid Interface
 extracells.block.fluidfiller.name=ME Fluid Auto Filler

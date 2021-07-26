@@ -4,10 +4,8 @@ import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
-import extracells.network.handler.other.HandlerFluidContainerSlot;
 import extracells.network.handler.other.HandlerFluidSlot;
 import extracells.network.handler.part.*;
-import extracells.network.packet.other.PacketFluidContainerSlot;
 import extracells.network.packet.other.PacketFluidSlot;
 import extracells.network.packet.part.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,11 +57,6 @@ public class ChannelHandler {
                 PacketFluidInterface.class, 7, Side.CLIENT);
         wrapper.registerMessage(HandlerFluidInterface.class,
                 PacketFluidInterface.class, 7, Side.SERVER);
-
-        wrapper.registerMessage(HandlerFluidContainerSlot.class,
-                PacketFluidContainerSlot.class, 8, Side.CLIENT);
-        wrapper.registerMessage(HandlerFluidContainerSlot.class,
-                PacketFluidContainerSlot.class, 8, Side.SERVER);
 
         wrapper.registerMessage(HandlerOreDictExport.class,
                 PacketOreDictExport.class, 9, Side.CLIENT);

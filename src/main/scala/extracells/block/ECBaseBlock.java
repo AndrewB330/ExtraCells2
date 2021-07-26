@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import extracells.api.IECTileEntity;
 import extracells.network.GuiHandler;
 import extracells.tileentity.IListenerTile;
-import extracells.tileentity.TileEntityFluidFiller;
 import extracells.tileentity.TileEntityFluidInterface;
 import extracells.util.PermissionUtil;
 import net.minecraft.block.Block;
@@ -40,7 +39,7 @@ public class ECBaseBlock extends BlockBase {
     @Override
     public void breakBlock(World world, int x, int y, int z, Block par5,
                            int par6) {
-        dropPatter(world, x, y, z);
+        dropPatterns(world, x, y, z);
         super.breakBlock(world, x, y, z, par5, par6);
     }
 
@@ -49,8 +48,6 @@ public class ECBaseBlock extends BlockBase {
         switch (meta) {
             case 0:
                 return new TileEntityFluidInterface();
-            case 1:
-                return new TileEntityFluidFiller();
             default:
                 return null;
         }
@@ -62,14 +59,14 @@ public class ECBaseBlock extends BlockBase {
         return p_149692_1_;
     }
 
-    private void dropPatter(World world, int x, int y, int z) {
+    private void dropPatterns(World world, int x, int y, int z) {
         Random rand = new Random();
 
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if (!(tileEntity instanceof TileEntityFluidInterface)) {
             return;
         }
-        IInventory inventory = ((TileEntityFluidInterface) tileEntity).inventory;
+        IInventory inventory = ((TileEntityFluidInterface) tileEntity).getInventory();
 
         for (int i = 0; i < inventory.getSizeInventory(); i++) {
             ItemStack item = inventory.getStackInSlot(i);
