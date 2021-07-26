@@ -62,8 +62,8 @@ public class ContainerFluidStorage extends Container implements
         // Input Slot accepts all FluidContainers
         addSlotToContainer(new SlotRespective(this.inventory, 0, 8, 92));
         // Input Slot accepts nothing
-		addSlotToContainer(new SlotFurnace(this.player, this.inventory, 1, 26,
-				92));
+        addSlotToContainer(new SlotFurnace(this.player, this.inventory, 1, 26,
+                92));
 
         bindPlayerInventory(this.player.inventory);
     }
@@ -305,7 +305,8 @@ public class ContainerFluidStorage extends Container implements
     }
 
     @Override
-	public void onListUpdate() {}
+    public void onListUpdate() {
+    }
 
     @Override
     public void postChange(IBaseMonitor<IAEFluidStack> monitor, Iterable<IAEFluidStack> change, BaseActionSource actionSource) {

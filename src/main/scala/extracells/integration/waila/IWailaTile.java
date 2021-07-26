@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IWailaTile {
 
-	public List<String> getWailaBody(List<String> list, NBTTagCompound tag,
-			ForgeDirection side);
+    public List<String> getWailaBody(List<String> list, NBTTagCompound tag,
+                                     ForgeDirection side);
 
-	public NBTTagCompound getWailaTag(NBTTagCompound tag);
+    public NBTTagCompound getWailaTag(NBTTagCompound tag);
 
 }

@@ -21,6 +21,7 @@ import org.apache.commons.io.FileUtils
  * This class is meant to be copied to your own mod which implements IGW-Mod. When properly implemented by instantiating a new instance somewhere in your mod
  * loading stage, this will notify the player when it doesn't have IGW in the instance. It also needs to have the config option enabled to
  * notify the player. This config option will be generated in its own config file.
+ *
  * @author MineMaarten https://github.com/MineMaarten/IGW-mod
  */
 object IGWSupportNotifier {
@@ -82,8 +83,8 @@ object IGWSupportNotifier {
 
   private class ThreadDownloadIGW extends Thread {
 
-      setName("IGW-Mod Download Thread")
-      start
+    setName("IGW-Mod Download Thread")
+    start
 
 
     override def run {

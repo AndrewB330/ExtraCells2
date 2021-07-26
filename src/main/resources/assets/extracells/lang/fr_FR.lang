@@ -51,7 +51,6 @@ extracells.part.drive.name=Installation de disque ME
 
 //Blocks
 extracells.block.certustank=Réservoir en Quartz Certus
-extracells.block.walrus.name=Morse
 extracells.block.fluidcrafter.name=Assembleur de fluide ME
 extracells.block.fluidinterface.name=Interface de fluide ME
 

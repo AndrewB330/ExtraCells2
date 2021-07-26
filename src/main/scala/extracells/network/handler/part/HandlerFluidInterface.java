@@ -6,12 +6,12 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import extracells.network.packet.part.PacketFluidInterface;
 
 public class HandlerFluidInterface implements
-		IMessageHandler<PacketFluidInterface, IMessage> {
+        IMessageHandler<PacketFluidInterface, IMessage> {
 
-	@Override
-	public IMessage onMessage(PacketFluidInterface message, MessageContext ctx) {
-		message.execute();
-		return null;
-	}
+    @Override
+    public IMessage onMessage(PacketFluidInterface message, MessageContext ctx) {
+        message.execute();
+        return null;
+    }
 
 }

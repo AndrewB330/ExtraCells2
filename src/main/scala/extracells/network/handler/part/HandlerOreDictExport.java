@@ -6,11 +6,11 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import extracells.network.packet.part.PacketOreDictExport;
 
 public class HandlerOreDictExport implements
-		IMessageHandler<PacketOreDictExport, IMessage> {
+        IMessageHandler<PacketOreDictExport, IMessage> {
 
-	@Override
-	public IMessage onMessage(PacketOreDictExport message, MessageContext ctx) {
-		message.execute();
-		return null;
-	}
+    @Override
+    public IMessage onMessage(PacketOreDictExport message, MessageContext ctx) {
+        message.execute();
+        return null;
+    }
 }

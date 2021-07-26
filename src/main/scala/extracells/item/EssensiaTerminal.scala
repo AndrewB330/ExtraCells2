@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound
 import thaumicenergistics.api.IThEWirelessEssentiaTerminal
 
 @Optional.Interface(iface = "thaumicenergistics.api.IThEWirelessEssentiaTerminal", modid = "thaumicenergistics", striprefs = true)
-trait EssensiaTerminal extends Item with IThEWirelessEssentiaTerminal{
+trait EssensiaTerminal extends Item with IThEWirelessEssentiaTerminal {
 
 
   override def getWETerminalTag(terminalItemstack: ItemStack): NBTTagCompound = {
